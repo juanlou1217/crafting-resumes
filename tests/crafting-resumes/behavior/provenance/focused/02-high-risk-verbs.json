@@ -1,0 +1,15 @@
+{
+  "suite": "focused",
+  "case_id": "02-high-risk-verbs",
+  "case_path": "tests/crafting-resumes/behavior/packaging-cases/02-high-risk-verbs.json",
+  "case_sha256": "e445c7bfdadaa5da4ecf01253182a8c53bd70c656900a300fcb56ee4aabc8731",
+  "prompt_sha256": "2f0829992d4efbb7698ec73f9fb84805561b115ff0aff79c7b2bbf15084a6032",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/packaging-eval/candidate/02-high-risk-verbs.md",
+  "output_sha256": "1db0d45bebea9f18ff18e21f36080fa2e07e24a39108dfffcf6f49207af0d5f1",
+  "agent_task": "/root/task5_refresh_behavior/focused02_regen",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

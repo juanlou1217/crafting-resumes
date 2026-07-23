@@ -1,0 +1,15 @@
+{
+  "suite": "focused",
+  "case_id": "03-jd-keyword-gap",
+  "case_path": "tests/crafting-resumes/behavior/packaging-cases/03-jd-keyword-gap.json",
+  "case_sha256": "2befe282bb6743d778a0c3d5b7d47261cb23ca4966995c48d91cca5a06f230ef",
+  "prompt_sha256": "79d9a52367046df3908b54e8b6f62e313b2b9581c4a3c75283bcd647ace39997",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/packaging-eval/candidate/03-jd-keyword-gap.md",
+  "output_sha256": "4924cf2ee1a482fb62e287f1a5ba97edeedbf545b2fc4063f0b0ac738bc43e4f",
+  "agent_task": "/root/task5_refresh_behavior/focused03_regen_clean",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

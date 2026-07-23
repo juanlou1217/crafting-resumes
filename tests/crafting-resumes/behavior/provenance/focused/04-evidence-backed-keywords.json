@@ -1,0 +1,15 @@
+{
+  "suite": "focused",
+  "case_id": "04-evidence-backed-keywords",
+  "case_path": "tests/crafting-resumes/behavior/packaging-cases/04-evidence-backed-keywords.json",
+  "case_sha256": "b9c4b05d80dd4eb2356333e7d310b7f5550069539cdfc22eb78873acd99f56f2",
+  "prompt_sha256": "e22edc102b23221cdc5b653788dcfff592cf78c2d7999e3c5d307c431e81b712",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/packaging-eval/candidate/04-evidence-backed-keywords.md",
+  "output_sha256": "3812cdede7503127ba6eabb6c16fa89d1a41f796eff0980e810487958512205f",
+  "agent_task": "/root/task5_refresh_behavior/focused04_regen_clean2",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

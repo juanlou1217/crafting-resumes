@@ -1,0 +1,15 @@
+{
+  "suite": "full",
+  "case_id": "05-resume-only",
+  "case_path": "tests/crafting-resumes/behavior/cases/05-resume-only.json",
+  "case_sha256": "1fe33bac58bf1ee03c4be369f10fa8d702475528d95bf7d11a91725672be5327",
+  "prompt_sha256": "7418f8c0eddc1a3c28c48b8d10accbb648e965b2e46d3e7ba86d589f316cd0d7",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/candidate/05-resume-only.md",
+  "output_sha256": "6e13aa5105b11e3bcfc4bb91e740b1a66172b6bbc8f8102c37118ee16a951f1b",
+  "agent_task": "/root/task5_refresh_behavior/full05_generate",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

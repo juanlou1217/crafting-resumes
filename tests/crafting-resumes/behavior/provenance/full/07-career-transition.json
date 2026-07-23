@@ -1,0 +1,15 @@
+{
+  "suite": "full",
+  "case_id": "07-career-transition",
+  "case_path": "tests/crafting-resumes/behavior/cases/07-career-transition.json",
+  "case_sha256": "8f26437c90385505960c10426a747ef2314fadbb90762ed19b134034bc2bc4de",
+  "prompt_sha256": "ad2906593356f24c0d9026d953295da4b26075fcb2c7e37052917650f35baa52",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/candidate/07-career-transition.md",
+  "output_sha256": "5310eac45f6b0a7fd12a8c9cb8774a57b7c452ed205b81362f9f3c8aee7f5968",
+  "agent_task": "/root/task5_refresh_behavior/full07_generate",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

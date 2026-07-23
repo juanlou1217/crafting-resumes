@@ -1,0 +1,15 @@
+{
+  "suite": "full",
+  "case_id": "08-product-role",
+  "case_path": "tests/crafting-resumes/behavior/cases/08-product-role.json",
+  "case_sha256": "0dc7754593aff0d6d26217fe3914328c092c5701789c3820da5c6197219ab956",
+  "prompt_sha256": "782f895a46fb4410f89f3dff31ea5aeed34a48079d7ce30c333c28c4a08140ec",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/candidate/08-product-role.md",
+  "output_sha256": "1d83264444b554513d3f0f1c0d7ea25dc62f2945c4c1d112cd3a93c0a0458732",
+  "agent_task": "/root/task5_refresh_behavior/full08_generate",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

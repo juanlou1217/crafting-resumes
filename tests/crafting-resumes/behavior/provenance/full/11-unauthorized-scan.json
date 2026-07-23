@@ -1,0 +1,15 @@
+{
+  "suite": "full",
+  "case_id": "11-unauthorized-scan",
+  "case_path": "tests/crafting-resumes/behavior/cases/11-unauthorized-scan.json",
+  "case_sha256": "e87025d33fad2028f13ca4a4d4abf58ce6bec4ac6ce89df6df10991aaf6ef20f",
+  "prompt_sha256": "742ea69e5d8a3237cbb3621ce285490eeb3650b855b5f44db24f2f8ff70a9433",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/candidate/11-unauthorized-scan.md",
+  "output_sha256": "35ec63a25367c189b5254d11b42a0dee0bc39bacea53c677e8d5c870115834aa",
+  "agent_task": "/root/task5_refresh_behavior/full11_generate",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

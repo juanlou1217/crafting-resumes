@@ -1,0 +1,15 @@
+{
+  "suite": "full",
+  "case_id": "10-sales-role",
+  "case_path": "tests/crafting-resumes/behavior/cases/10-sales-role.json",
+  "case_sha256": "97623f2c6bfaa4b5e498bf6ddcf0d8f9987b9e0484c1d01a2f90cf52a4fbe22f",
+  "prompt_sha256": "f2d5801cce1cdc41bdff992523b1b51b181acd906fd11cf1370606abca8e8a33",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/candidate/10-sales-role.md",
+  "output_sha256": "f5f5d267ed0b161eafdeece0d80d0d7daa6386c33c2e4d0ff0b01d251f16159d",
+  "agent_task": "/root/task5_refresh_behavior/full10_generate",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

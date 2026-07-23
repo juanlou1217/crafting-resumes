@@ -1,0 +1,15 @@
+{
+  "suite": "focused",
+  "case_id": "01-reasonable-language",
+  "case_path": "tests/crafting-resumes/behavior/packaging-cases/01-reasonable-language.json",
+  "case_sha256": "94f42f4ccc6636c10253f28880d55932ee49a8c06403a9ca220aff717662226d",
+  "prompt_sha256": "0fac46d4f21e7ec90dcf85c56d78dd2c36196d43c67f890b952deb754a9ef13b",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/packaging-eval/candidate/01-reasonable-language.md",
+  "output_sha256": "322846ea53c41ecf1a3add1441f703c66cb1cbeddd49e25097539b29609fe381",
+  "agent_task": "/root/task5_refresh_behavior/focused01_regen",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

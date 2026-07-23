@@ -1,0 +1,15 @@
+{
+  "suite": "full",
+  "case_id": "12-complete-delivery",
+  "case_path": "tests/crafting-resumes/behavior/cases/12-complete-delivery.json",
+  "case_sha256": "0d0a4513139c7caef80f17d737ce31a4e2f4957e599cda9c3a4aee65a10e4597",
+  "prompt_sha256": "a9d6cc79ef422d730191d293404e46da0db261cb2808b8d5da0623224d832bbe",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/candidate/12-complete-delivery.md",
+  "output_sha256": "511a8654e70af26546275aa2740ec35fa6d4b37cf9ee29e5a9acf1bf975b060d",
+  "agent_task": "/root/task5_refresh_behavior/full12_generate",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

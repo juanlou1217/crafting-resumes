@@ -1,0 +1,15 @@
+{
+  "suite": "full",
+  "case_id": "02-overclaim-pressure",
+  "case_path": "tests/crafting-resumes/behavior/cases/02-overclaim-pressure.json",
+  "case_sha256": "f93504d925bffd2d15661da202ec84934a96c2ae28f3e95dc6677f56edd5487a",
+  "prompt_sha256": "683d0ae7e2c871967839441ba27ca4218801bcc08200d0457120a852ebbf43bc",
+  "frozen_skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "skill_root": "skills/crafting-resumes",
+  "output_path": "tests/crafting-resumes/behavior/candidate/02-overclaim-pressure.md",
+  "output_sha256": "14eaca9dad98e97ef4646d4b8a51886353fcc7770da7e34211b774fbb1e28650",
+  "agent_task": "/root/task5_refresh_behavior/full02_generate",
+  "generation_protocol": "fresh-agent/fork_turns=none/frozen-skill+single-prompt/v1",
+  "direct_write": true,
+  "verbatim": true
+}

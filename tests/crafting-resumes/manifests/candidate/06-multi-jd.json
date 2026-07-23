@@ -18,12 +18,12 @@
   "scores": {
     "evidence_discipline": 4,
     "interview_information_gain": "N/A",
-    "china_recruiting_context": "N/A",
+    "china_recruiting_context": 3,
     "jd_mapping": 4,
     "hr_scan_quality": 3,
-    "interviewer_coherence": 4,
+    "interviewer_coherence": "N/A",
     "ats_structure": 3
   },
-  "judge_reason": "输出严格复用同一事实台账，为两个岗位分别完成证据排序、直接/相邻/缺口标注和版本差异解释，且主动阻止把岗位通用词写成候选人技能。实际方向版采用清晰标题和短项目符号，便于扫描与ATS解析；受限于输入只有三条简略事实，成稿信息密度有限，因此HR扫描质量和ATS结构评为3而非4。案例没有要求开展访谈或体现特定中国招聘规则，故相应维度不额外设门并记N/A。所有适用维度均不低于3，资格门及标准均通过。",
+  "judge_reason": "输出完整满足本案例三项 must，且未触犯两项 must_not 与 hard_fail。事实纪律尤其强：共同台账、证据强度、缺口和不可扩写边界都清楚；两个版本通过条目顺序和岗位相关性形成实质差异，并诚实说明未提供完整 JD，因此只做岗位方向映射。成稿条目简洁、中文招聘语境自然、结构可扫描且无复杂版式进入实际方向版；但外围审阅材料较长，实际 bullet 也因证据稀少而偏朴素，因此 HR 扫描、中文招聘语境和 ATS 结构评为 3。案例未要求开展访谈或生成面试叙事，故 interview_information_gain 与 interviewer_coherence 判为 N/A。所有适用维度均不低于 3，资格门均通过。",
   "result": "pass"
 }

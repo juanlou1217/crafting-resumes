@@ -6,6 +6,15 @@ import re
 import sys
 from pathlib import Path
 
+from validate_generation_receipts import (
+    ValidationError as ReceiptValidationError,
+    validate_receipts,
+)
+from validate_multi_jd_adjudication import (
+    ValidationError as AdjudicationValidationError,
+    validate_adjudication,
+)
+
 
 ROOT = Path(__file__).resolve().parents[3]
 EXPECTED_CASE_IDS = {
@@ -387,6 +396,28 @@ def validate_assets(root: Path) -> tuple[int, int]:
             raise ValidationError(
                 "candidate manifests must share one skill commit"
             )
+        provenance_root = (
+            resolved_root
+            / "tests/crafting-resumes/behavior/provenance"
+        )
+        if provenance_root.exists():
+            try:
+                validate_receipts(
+                    resolved_root,
+                    next(iter(candidate_skill_commits)),
+                )
+            except ReceiptValidationError as error:
+                raise ValidationError(str(error)) from error
+        adjudication_path = (
+            resolved_root
+            / "tests/crafting-resumes/behavior/regressions/"
+            "06-multi-jd-adjudication.md"
+        )
+        if adjudication_path.exists():
+            try:
+                validate_adjudication(resolved_root)
+            except AdjudicationValidationError as error:
+                raise ValidationError(str(error)) from error
     case_count = len(cases)
     manifest_count = len(manifests)
     return case_count, manifest_count
