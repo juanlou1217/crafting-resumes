@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -20,6 +21,23 @@ CASE_IDS = (
     "02-high-risk-verbs",
     "03-jd-keyword-gap",
     "04-evidence-backed-keywords",
+)
+REQUIRED_SKILL_PATHS = {
+    "skills/crafting-resumes/SKILL.md",
+    (
+        "skills/crafting-resumes/references/"
+        "professional-packaging-and-keywords.md"
+    ),
+}
+EXPECTED_COMMIT_FILE = (
+    ROOT
+    / "tests/crafting-resumes/behavior/packaging-eval/"
+    "expected-skill-commit.txt"
+)
+SIX_FIELD_HEADER = re.compile(
+    r"^\|\s*keyword\s*\|\s*source\s*\|\s*candidate_evidence\s*\|"
+    r"\s*match_strength\s*\|\s*allowed_surface\s*\|\s*status\s*\|$",
+    re.MULTILINE,
 )
 
 
@@ -43,7 +61,11 @@ class PackagingEvalValidatorTests(unittest.TestCase):
             check=False,
         )
 
-    def initialize_fixture(self, root: Path) -> str:
+    def initialize_fixture(
+        self,
+        root: Path,
+        included_skill_paths: set[str] | None = None,
+    ) -> str:
         cases_dir = root / "tests/crafting-resumes/behavior/packaging-cases"
         cases_dir.mkdir(parents=True)
         for case_id in CASE_IDS:
@@ -76,8 +98,20 @@ class PackagingEvalValidatorTests(unittest.TestCase):
         )
         marker = root / "skill-marker.txt"
         marker.write_text("frozen skill\n", encoding="utf-8")
+        selected_skill_paths = (
+            REQUIRED_SKILL_PATHS
+            if included_skill_paths is None
+            else included_skill_paths
+        )
+        for relative_path in selected_skill_paths:
+            skill_path = root / relative_path
+            skill_path.parent.mkdir(parents=True, exist_ok=True)
+            skill_path.write_text(
+                f"frozen fixture for {relative_path}\n",
+                encoding="utf-8",
+            )
         subprocess.run(
-            ["git", "-C", str(root), "add", "skill-marker.txt"],
+            ["git", "-C", str(root), "add", "."],
             check=True,
         )
         subprocess.run(
@@ -291,6 +325,32 @@ class PackagingEvalValidatorTests(unittest.TestCase):
             "candidate skill_commit does not match expected commit",
         )
 
+    def test_rejects_commit_missing_each_required_skill_path(self) -> None:
+        for missing_path in sorted(REQUIRED_SKILL_PATHS):
+            with self.subTest(missing_path=missing_path):
+                with tempfile.TemporaryDirectory() as temporary_directory:
+                    root = Path(temporary_directory)
+                    commit = self.initialize_fixture(
+                        root,
+                        REQUIRED_SKILL_PATHS - {missing_path},
+                    )
+                    self.write_phase(root, "baseline", None)
+                    self.write_phase(root, "candidate", commit)
+
+                    completed = self.run_validator(
+                        root,
+                        "--expected-skill-commit",
+                        commit,
+                    )
+
+                self.assert_validation_failure(
+                    completed,
+                    (
+                        "candidate skill_commit must contain required "
+                        f"Skill path: {missing_path}"
+                    ),
+                )
+
     def test_rejects_symlink_output(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)
@@ -309,6 +369,53 @@ class PackagingEvalValidatorTests(unittest.TestCase):
             completed,
             "focused output path must not contain symlinks",
         )
+
+    def read_expected_repository_commit(self) -> str:
+        if not EXPECTED_COMMIT_FILE.is_file():
+            self.skipTest(
+                "focused candidate receipt is added with frozen eval assets"
+            )
+        expected_commit = EXPECTED_COMMIT_FILE.read_text(
+            encoding="utf-8"
+        ).strip()
+        self.assertRegex(expected_commit, r"\A[0-9a-f]{40}\Z")
+        return expected_commit
+
+    def test_repository_integration_smoke(self) -> None:
+        expected_commit = self.read_expected_repository_commit()
+        candidate_manifest = json.loads(
+            (
+                ROOT
+                / "tests/crafting-resumes/behavior/packaging-eval/"
+                "candidate.json"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            candidate_manifest["skill_commit"],
+            expected_commit,
+        )
+
+        completed = self.run_validator(
+            ROOT,
+            "--expected-skill-commit",
+            expected_commit,
+        )
+
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertEqual(
+            completed.stdout,
+            "Validated 4 focused packaging cases, 8 phase results.\n",
+        )
+
+    def test_repository_keyword_gap_output_has_six_field_map(self) -> None:
+        self.read_expected_repository_commit()
+        output = (
+            ROOT
+            / "tests/crafting-resumes/behavior/packaging-eval/candidate/"
+            "03-jd-keyword-gap.md"
+        ).read_text(encoding="utf-8")
+
+        self.assertRegex(output, SIX_FIELD_HEADER)
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@
 1. `target_and_jd`：已确认求职目标；有 JD 时保留 JD 原文、权重和解析，无 JD 时明确 `N/A`。
 2. `evidence_ledger`：唯一事实台账及来源、状态、归因、保密和允许产物。
 3. `jd_mapping`：有 JD 和候选证据时输出 `covered`、`weak`、`gap`、`do_not_force`；缺任一输入时为 `N/A`。
-4. `keyword_evidence_map`：写作或关键词优化时按 `professional-packaging-and-keywords.md` 条件输出，固定字段为 `keyword/source/candidate_evidence/match_strength/allowed_surface/status`；仅 JD 解析或不涉及写作时可省略。
+4. `keyword_evidence_map`：写作或关键词优化时按 `professional-packaging-and-keywords.md` 输出，固定字段为 `keyword/source/candidate_evidence/match_strength/allowed_surface/status`；任何关键词优化请求都不能省略，即使所有目标词均为 `gap/do_not_force/next_question`。仅 JD 解析且不涉及候选人关键词优化时可省略。
 5. `current_one_question`：只有关键缺口或资格门阻断下一步时才出现，并且整轮正好一个问题；事实完整且用户要求交付时省略。
 6. `risks_and_conflicts`：真实性、日期/数字/职责冲突、隐私、高权重 JD gap 与面试风险。
 

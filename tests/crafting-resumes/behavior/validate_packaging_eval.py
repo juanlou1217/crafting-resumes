@@ -37,6 +37,13 @@ RESULT_KEYS = {
 CHECK_KEYS = {"criterion", "pass", "reason"}
 LOWER_HEX_40 = re.compile(r"[0-9a-f]{40}")
 LOWER_HEX_64 = re.compile(r"[0-9a-f]{64}")
+REQUIRED_SKILL_PATHS = (
+    "skills/crafting-resumes/SKILL.md",
+    (
+        "skills/crafting-resumes/references/"
+        "professional-packaging-and-keywords.md"
+    ),
+)
 
 
 class ValidationError(ValueError):
@@ -207,7 +214,7 @@ def validate_checks(
     return pass_values
 
 
-def prove_commit_exists(root: Path, commit: str) -> None:
+def prove_skill_commit(root: Path, commit: str) -> None:
     completed = subprocess.run(
         ["git", "-C", str(root), "cat-file", "-e", f"{commit}^{{commit}}"],
         capture_output=True,
@@ -218,6 +225,25 @@ def prove_commit_exists(root: Path, commit: str) -> None:
         raise ValidationError(
             "candidate skill_commit must name a commit in the repository"
         )
+    for relative_path in REQUIRED_SKILL_PATHS:
+        completed = subprocess.run(
+            [
+                "git",
+                "-C",
+                str(root),
+                "cat-file",
+                "-e",
+                f"{commit}:{relative_path}",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if completed.returncode != 0:
+            raise ValidationError(
+                "candidate skill_commit must contain required "
+                f"Skill path: {relative_path}"
+            )
 
 
 def validate_phase(
@@ -261,7 +287,7 @@ def validate_phase(
             raise ValidationError(
                 "candidate skill_commit does not match expected commit"
             )
-        prove_commit_exists(root, skill_commit)
+        prove_skill_commit(root, skill_commit)
 
     results = manifest["cases"]
     if not isinstance(results, list):
