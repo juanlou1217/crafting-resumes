@@ -83,45 +83,135 @@ class ExclusiveRenameTests(unittest.TestCase):
         )
         self.assertIs(renameatx_np.restype, ctypes.c_int)
 
-    def test_syscall_uses_parent_fds_relative_names_and_exact_flags(
+    def test_public_api_wires_parent_fds_names_flags_and_stats(
         self,
     ) -> None:
-        source = self.root / "source"
-        target = self.root / "target"
+        source_parent = self.root / "source-parent"
+        target_parent = self.root / "target-parent"
+        source_parent.mkdir()
+        target_parent.mkdir()
+        source = source_parent / "source"
+        target = target_parent / "target"
         source.mkdir()
-        source_stat = source.stat()
-        parent_descriptor = os.open(self.root, os.O_RDONLY)
-        self.addCleanup(os.close, parent_descriptor)
-        calls: list[tuple[object, ...]] = []
-
-        def fake_renameatx_np(*arguments: object) -> int:
-            calls.append(arguments)
-            return 0
-
-        self.helper._invoke_renameatx_np(
-            fake_renameatx_np,
-            parent_descriptor,
-            b"source",
-            parent_descriptor,
-            b"target",
-            source_stat,
-            source,
+        source_identity = source.stat().st_dev, source.stat().st_ino
+        source_parent_identity = (
+            source_parent.stat().st_dev,
+            source_parent.stat().st_ino,
         )
+        target_parent_identity = (
+            target_parent.stat().st_dev,
+            target_parent.stat().st_ino,
+        )
+        real_renameatx_np = self.helper._load_renameatx_np()
+        real_same_filesystem = self.helper._same_filesystem
+        syscall_calls: list[tuple[object, ...]] = []
+        filesystem_calls: list[tuple[tuple[int, int], ...]] = []
+
+        def spy_renameatx_np(
+            source_parent_descriptor: int,
+            source_basename: bytes,
+            target_parent_descriptor: int,
+            target_basename: bytes,
+            flags: int,
+        ) -> int:
+            syscall_calls.append(
+                (
+                    source_parent_descriptor,
+                    self.helper._identity(
+                        os.fstat(source_parent_descriptor)
+                    ),
+                    source_basename,
+                    target_parent_descriptor,
+                    self.helper._identity(
+                        os.fstat(target_parent_descriptor)
+                    ),
+                    target_basename,
+                    flags,
+                )
+            )
+            return real_renameatx_np(
+                source_parent_descriptor,
+                source_basename,
+                target_parent_descriptor,
+                target_basename,
+                flags,
+            )
+
+        def spy_same_filesystem(
+            source_stat: os.stat_result,
+            source_parent_stat: os.stat_result,
+            target_parent_stat: os.stat_result,
+        ) -> bool:
+            filesystem_calls.append(
+                (
+                    self.helper._identity(source_stat),
+                    self.helper._identity(source_parent_stat),
+                    self.helper._identity(target_parent_stat),
+                )
+            )
+            return real_same_filesystem(
+                source_stat,
+                source_parent_stat,
+                target_parent_stat,
+            )
+
+        with mock.patch.object(
+            self.helper,
+            "_load_renameatx_np",
+            return_value=spy_renameatx_np,
+        ), mock.patch.object(
+            self.helper,
+            "_same_filesystem",
+            side_effect=spy_same_filesystem,
+        ):
+            self.helper.exclusive_rename(source, target)
 
         self.assertEqual(
-            calls,
+            filesystem_calls,
             [
                 (
-                    parent_descriptor,
-                    b"source",
-                    parent_descriptor,
-                    b"target",
-                    self.helper.RENAME_EXCL
-                    | self.helper.RENAME_NOFOLLOW_ANY,
+                    source_identity,
+                    source_parent_identity,
+                    target_parent_identity,
                 )
             ],
         )
-        self.assertNotEqual(parent_descriptor, self.helper.AT_FDCWD)
+        self.assertEqual(len(syscall_calls), 1)
+        (
+            source_parent_descriptor,
+            opened_source_parent_identity,
+            source_basename,
+            target_parent_descriptor,
+            opened_target_parent_identity,
+            target_basename,
+            flags,
+        ) = syscall_calls[0]
+        self.assertNotEqual(
+            source_parent_descriptor, self.helper.AT_FDCWD
+        )
+        self.assertNotEqual(
+            target_parent_descriptor, self.helper.AT_FDCWD
+        )
+        self.assertNotEqual(
+            source_parent_descriptor, target_parent_descriptor
+        )
+        self.assertEqual(
+            opened_source_parent_identity, source_parent_identity
+        )
+        self.assertEqual(source_basename, b"source")
+        self.assertEqual(
+            opened_target_parent_identity, target_parent_identity
+        )
+        self.assertEqual(target_basename, b"target")
+        self.assertEqual(
+            flags,
+            self.helper.RENAME_EXCL | self.helper.RENAME_NOFOLLOW_ANY,
+        )
+        self.assertFalse(os.path.lexists(source))
+        self.assertTrue(target.is_dir())
+        self.assertEqual(
+            (target.stat().st_dev, target.stat().st_ino), source_identity
+        )
 
     def test_moves_absent_target_without_changing_identity(self) -> None:
         source = self.root / "source"
@@ -195,21 +285,37 @@ class ExclusiveRenameTests(unittest.TestCase):
                 self.assertFalse(os.path.lexists(target))
 
     def test_refuses_parent_symlink(self) -> None:
-        real_parent = self.root / "real-parent"
-        linked_parent = self.root / "linked-parent"
-        target_parent = self.root / "target-parent"
-        real_parent.mkdir()
-        target_parent.mkdir()
-        source = real_parent / "source"
-        source.mkdir()
-        linked_parent.symlink_to(real_parent, target_is_directory=True)
-        target = target_parent / "target"
+        for linked_side in ("source", "target"):
+            with self.subTest(linked_side=linked_side):
+                case_root = self.root / linked_side
+                source_parent = case_root / "source-parent"
+                target_parent = case_root / "target-parent"
+                linked_parent = case_root / "linked-parent"
+                source_parent.mkdir(parents=True)
+                target_parent.mkdir()
+                source = source_parent / "source"
+                target = target_parent / "target"
+                source.mkdir()
+                if linked_side == "source":
+                    linked_parent.symlink_to(
+                        source_parent, target_is_directory=True
+                    )
+                    source_argument = linked_parent / source.name
+                    target_argument = target
+                else:
+                    linked_parent.symlink_to(
+                        target_parent, target_is_directory=True
+                    )
+                    source_argument = source
+                    target_argument = linked_parent / target.name
 
-        completed = self.run_helper(linked_parent / source.name, target)
+                completed = self.run_helper(
+                    source_argument, target_argument
+                )
 
-        self.assert_rejection(completed)
-        self.assertTrue(source.is_dir())
-        self.assertFalse(os.path.lexists(target))
+                self.assert_rejection(completed)
+                self.assertTrue(source.is_dir())
+                self.assertFalse(os.path.lexists(target))
 
     def test_same_filesystem_guard_is_enforced(self) -> None:
         source_parent = self.root / "source-parent"
