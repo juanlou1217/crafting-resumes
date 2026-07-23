@@ -1,29 +1,29 @@
 {
   "case_id": "04-jd-only",
   "phase": "candidate",
-  "skill_commit": "c7dc9f3b6086bb359be360ec28db45185f2690ee",
+  "skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
   "case_sha256": "ad7394cad5673b230015291572e68e85f91adb1a847fef2eded34f19b96dbb7e",
   "model": "Codex inherited model (fresh subagent)",
   "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
   "raw_output_path": "tests/crafting-resumes/behavior/candidate/04-jd-only.md",
-  "output_sha256": "0c0bce495c95f5eb792f6225e5742dee12d3907c438ad8e53ec101c427f18598",
+  "output_sha256": "8418b9d9ebd86cc3999420cb5e5e61842646062610a97f2c85b834ed1861273f",
   "qualification_gates": {
     "unconfirmed_fact": "pass",
-    "contribution_upgrade": "pass",
+    "contribution_upgrade": "N/A",
     "fabricated_metric": "pass",
-    "unresolved_conflict": "pass",
-    "privacy_leak": "pass",
-    "unauthorized_read": "pass"
+    "unresolved_conflict": "N/A",
+    "privacy_leak": "N/A",
+    "unauthorized_read": "N/A"
   },
   "scores": {
     "evidence_discipline": 4,
-    "interview_information_gain": 4,
+    "interview_information_gain": 3,
     "china_recruiting_context": 3,
     "jd_mapping": 4,
     "hr_scan_quality": "N/A",
-    "interviewer_coherence": 4,
+    "interviewer_coherence": 3,
     "ats_structure": "N/A"
   },
-  "judge_reason": "输出严格区分了 JD 要求与候选人事实，明确因缺少候选人证据而将匹配分标为 N/A 并阻断完整简历，未猜测任何经历、能力、贡献或指标。JD 解析覆盖职责、技能、业务语境、面试主题、ATS 关键词与筛选风险，并将五类要求均列为高优先级素材方向，逐项给出可验证的采集要点；下一步索取现有简历或最相关真实经历，信息增益与访谈衔接清楚。中国招聘语境涉及职级、硬筛、ATS 与筛选风险，但受极短 JD 限制，深度计 3 分。由于完整简历及 ATS 文本被正确阻断，HR 扫描质量和 ATS 结构没有可评估成品，确属不适用。满足案例全部 must，未触发 hard_fail 或任何资格门。",
+  "judge_reason": "输出对 JD 做了完整且有优先级的拆解，同时把匹配分、候选人映射和完整简历严格阻断在候选人证据缺失处，没有把岗位要求冒充为个人事实。",
   "result": "pass"
 }

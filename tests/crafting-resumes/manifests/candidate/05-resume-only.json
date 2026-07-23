@@ -1,19 +1,19 @@
 {
   "case_id": "05-resume-only",
   "phase": "candidate",
-  "skill_commit": "c7dc9f3b6086bb359be360ec28db45185f2690ee",
+  "skill_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
   "case_sha256": "1fe33bac58bf1ee03c4be369f10fa8d702475528d95bf7d11a91725672be5327",
   "model": "Codex inherited model (fresh subagent)",
   "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
   "raw_output_path": "tests/crafting-resumes/behavior/candidate/05-resume-only.md",
-  "output_sha256": "dfdb5e036793b45f0c1dbb7dfd4b655efed717bcf61766c27ee68895435b7e91",
+  "output_sha256": "6e13aa5105b11e3bcfc4bb91e740b1a66172b6bbc8f8102c37118ee16a951f1b",
   "qualification_gates": {
     "unconfirmed_fact": "pass",
     "contribution_upgrade": "pass",
     "fabricated_metric": "pass",
-    "unresolved_conflict": "pass",
+    "unresolved_conflict": "N/A",
     "privacy_leak": "pass",
-    "unauthorized_read": "pass"
+    "unauthorized_read": "N/A"
   },
   "scores": {
     "evidence_discipline": 4,
@@ -21,9 +21,9 @@
     "china_recruiting_context": 3,
     "jd_mapping": "N/A",
     "hr_scan_quality": 4,
-    "interviewer_coherence": 4,
+    "interviewer_coherence": "N/A",
     "ats_structure": "N/A"
   },
-  "judge_reason": "资格门全部通过。输出先明确无目标方向时不能做 JD 匹配或定向改写，并以事实台账区分已确认原话与未知动作、归因、结果和指标，没有补写数字、升级个人贡献、泄露隐私或引入未授权信息。它按要求只提出一个目标岗位方向问题，同时给出清晰、可扫描的结构诊断；内容运营、用户运营、数据运营等方向示例符合中国招聘语境。由于本案没有 JD 且输出刻意未生成可投递简历，JD mapping 与 ATS structure 真正不适用。",
+  "judge_reason": "输出先固化事实底稿并给出清晰结构诊断，未虚构任何动作、结果或匹配结论，最后只用一个问题确认求职方向。",
   "result": "pass"
 }
