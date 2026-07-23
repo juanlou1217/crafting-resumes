@@ -1,0 +1,18 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.coverage
+.pytest_cache/
+.venv/
+build/
+dist/
+*.egg-info/
+*.pdf
+*.png
+*.log
+.env
+.env.*
+
+# Real-machine acceptance evidence stays outside the standalone repository.
+tests/crafting-china-resumes/manifests/installation.json
+tests/crafting-china-resumes/manifests/pdf-real-acceptance.json

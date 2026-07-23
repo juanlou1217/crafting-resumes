@@ -1,0 +1,28 @@
+{
+  "case_id": "08-product-role",
+  "phase": "candidate",
+  "skill_commit": "c7dc9f3b6086bb359be360ec28db45185f2690ee",
+  "case_sha256": "0dc7754593aff0d6d26217fe3914328c092c5701789c3820da5c6197219ab956",
+  "model": "Codex inherited model (fresh subagent)",
+  "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
+  "raw_output_path": "tests/crafting-china-resumes/behavior/candidate/08-product-role.md",
+  "qualification_gates": {
+    "unconfirmed_fact": "pass",
+    "contribution_upgrade": "pass",
+    "fabricated_metric": "pass",
+    "unresolved_conflict": "pass",
+    "privacy_leak": "pass",
+    "unauthorized_read": "pass"
+  },
+  "scores": {
+    "evidence_discipline": 4,
+    "interview_information_gain": 4,
+    "china_recruiting_context": 3,
+    "jd_mapping": "N/A",
+    "hr_scan_quality": "N/A",
+    "interviewer_coherence": 4,
+    "ats_structure": "N/A"
+  },
+  "judge_reason": "资格门全部通过：输出仅复述用户已明确的工作范围，并将使用场景、职责边界、具体做法和结果明确标为待确认；没有补写数字或结果，没有升级个人贡献，也没有未解决冲突、隐私泄露或越权读取。提问严格只有一个，聚焦用户在业务流程中的核心问题，且允许回答“不清楚”，信息增益高，符合产品岗位素材深挖与中国招聘语境。案例未提供 JD，本轮目标也是追问素材而非生成可投递简历，因此 JD 映射、HR 扫读质量和 ATS 结构确属不适用。",
+  "result": "pass"
+}
