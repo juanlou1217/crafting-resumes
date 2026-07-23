@@ -109,6 +109,18 @@ class PackagingContractTests(unittest.TestCase):
             reference_text,
         )
 
+    def test_confirmed_facts_do_not_create_unconfirmed_causal_links(self) -> None:
+        reference_text = REFERENCE_FILE.read_text(encoding="utf-8")
+
+        self.assertIn(
+            "并列确认的动作、采用状态和指标变化，不自动证明时间先后或因果关系",
+            reference_text,
+        )
+        self.assertIn(
+            "不得擅自用“后”“因此”“带来”“使得”连接",
+            reference_text,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
