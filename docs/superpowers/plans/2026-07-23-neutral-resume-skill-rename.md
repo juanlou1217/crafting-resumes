@@ -1952,7 +1952,7 @@ test "$(gh repo view juanlou1217/crafting-china-resumes \
   --json nameWithOwner --jq .nameWithOwner)" = \
   "juanlou1217/crafting-china-resumes"
 test "$(gh repo view juanlou1217/crafting-china-resumes \
-  --json visibility --jq .visibility)" = "PRIVATE"
+  --json visibility --jq .visibility)" = "PUBLIC"
 test "$(gh repo view juanlou1217/crafting-china-resumes \
   --json defaultBranchRef --jq .defaultBranchRef.name)" = "main"
 test "$(git ls-remote "$OLD_REMOTE" refs/heads/main | awk '{print $1}')" = \
@@ -2031,7 +2031,7 @@ set -e
 if test "$new_identity_status" -eq 0; then
   test "$new_identity" = "juanlou1217/crafting-resumes"
   test "$(gh repo view juanlou1217/crafting-resumes \
-    --json visibility --jq .visibility)" = "PRIVATE"
+    --json visibility --jq .visibility)" = "PUBLIC"
   test "$(gh repo view juanlou1217/crafting-resumes \
     --json defaultBranchRef --jq .defaultBranchRef.name)" = "main"
   test "$(git ls-remote "$NEW_REMOTE" refs/heads/main | awk '{print $1}')" = \
@@ -2075,7 +2075,7 @@ test "$(gh repo view juanlou1217/crafting-resumes \
   --json nameWithOwner --jq .nameWithOwner)" = \
   "juanlou1217/crafting-resumes"
 test "$(gh repo view juanlou1217/crafting-resumes \
-  --json visibility --jq .visibility)" = "PRIVATE"
+  --json visibility --jq .visibility)" = "PUBLIC"
 test "$(gh repo view juanlou1217/crafting-resumes \
   --json defaultBranchRef --jq .defaultBranchRef.name)" = "main"
 test "$(gh repo view juanlou1217/crafting-resumes \
@@ -2231,7 +2231,9 @@ git -C "$NEW_REPO" status --short --branch
 git -C "$NEW_REPO" remote -v
 ```
 
-Expected: private repository, `main`, clean local checkout, and SSH URLs using only `crafting-resumes`.
+Expected: the existing public visibility is preserved, the default branch is
+`main`, the local checkout is clean, and SSH URLs use only
+`crafting-resumes`.
 
 ### Task 8: Install the neutral Skill atomically and verify discovery
 
@@ -2742,7 +2744,7 @@ if [[ "$COMPLETION_MODE" != "cleanup" ]]; then
     --json nameWithOwner --jq .nameWithOwner)" = \
     "juanlou1217/crafting-resumes"
   test "$(gh repo view juanlou1217/crafting-resumes \
-    --json visibility --jq .visibility)" = "PRIVATE"
+    --json visibility --jq .visibility)" = "PUBLIC"
   test "$(gh repo view juanlou1217/crafting-resumes \
     --json defaultBranchRef --jq .defaultBranchRef.name)" = "main"
   test "$(gh repo view juanlou1217/crafting-resumes \
