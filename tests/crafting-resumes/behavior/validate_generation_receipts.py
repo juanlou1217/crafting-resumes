@@ -9,6 +9,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from commit_equivalence import (
+    CommitEquivalenceError,
+    resolve_skill_commit,
+)
+
 
 ROOT = Path(__file__).resolve().parents[3]
 PROVENANCE_ROOT = Path(
@@ -150,22 +155,13 @@ def prove_skill_commit(root: Path, commit: str) -> None:
         raise ValidationError(
             "frozen_skill_commit must be 40 lowercase hex characters"
         )
-    commit_check = subprocess.run(
-        [
-            "git",
-            "-C",
-            str(root),
-            "cat-file",
-            "-e",
-            f"{commit}^{{commit}}",
-        ],
-        capture_output=True,
-        check=False,
-    )
-    if commit_check.returncode != 0:
+    try:
+        published_commit = resolve_skill_commit(root, commit)
+    except CommitEquivalenceError as error:
         raise ValidationError(
-            "frozen_skill_commit must resolve to a commit"
-        )
+            "frozen_skill_commit must resolve to a commit or a valid "
+            f"published equivalent: {error}"
+        ) from error
     for relative_path in REQUIRED_SKILL_PATHS:
         completed = subprocess.run(
             [
@@ -174,7 +170,7 @@ def prove_skill_commit(root: Path, commit: str) -> None:
                 str(root),
                 "cat-file",
                 "-e",
-                f"{commit}:{relative_path}",
+                f"{published_commit}:{relative_path}",
             ],
             capture_output=True,
             check=False,

@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -23,5 +25,7 @@ jobs:
         run: python -B -m unittest discover -s tests/crafting-resumes -p 'test_*.py'
       - name: Validate frozen behavior assets
         run: python -B tests/crafting-resumes/behavior/validate_eval_assets.py
+      - name: Validate reachable Git metadata
+        run: python -B tests/crafting-resumes/behavior/validate_git_metadata.py .
       - name: Hash installable Skill tree
         run: python -B tests/crafting-resumes/hash_skill_tree.py skills/crafting-resumes

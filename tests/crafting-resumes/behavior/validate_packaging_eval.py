@@ -9,6 +9,11 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from commit_equivalence import (
+    CommitEquivalenceError,
+    resolve_skill_commit,
+)
+
 
 DEFAULT_ROOT = Path(__file__).resolve().parents[3]
 RELATIVE_EVAL_ROOT = Path(
@@ -219,16 +224,13 @@ def validate_checks(
 
 
 def prove_skill_commit(root: Path, commit: str) -> None:
-    completed = subprocess.run(
-        ["git", "-C", str(root), "cat-file", "-e", f"{commit}^{{commit}}"],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    if completed.returncode != 0:
+    try:
+        published_commit = resolve_skill_commit(root, commit)
+    except CommitEquivalenceError as error:
         raise ValidationError(
-            "candidate skill_commit must name a commit in the repository"
-        )
+            "candidate skill_commit must name a commit in the repository "
+            f"or a valid published equivalent: {error}"
+        ) from error
     for relative_path in REQUIRED_SKILL_PATHS:
         completed = subprocess.run(
             [
@@ -237,7 +239,7 @@ def prove_skill_commit(root: Path, commit: str) -> None:
                 str(root),
                 "cat-file",
                 "-e",
-                f"{commit}:{relative_path}",
+                f"{published_commit}:{relative_path}",
             ],
             capture_output=True,
             text=True,

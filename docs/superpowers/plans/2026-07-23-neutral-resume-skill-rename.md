@@ -1869,12 +1869,19 @@ FULL_SKILL_COMMIT="$("$PYTHON" -c \
   "tests/crafting-resumes/manifests/candidate").glob("*.json")};
   assert len(commits) == 1; print(commits.pop())')"
 test "$FOCUSED_SKILL_COMMIT" = "$FULL_SKILL_COMMIT"
-git cat-file -e "$FOCUSED_SKILL_COMMIT^{commit}"
+COMMIT_EQUIVALENCE=tests/crafting-resumes/behavior/commit_equivalence.py
+PUBLISHED_SKILL_COMMIT="$(
+  "$PYTHON" -B "$COMMIT_EQUIVALENCE" \
+    . "$FOCUSED_SKILL_COMMIT"
+)"
+git cat-file -e "$PUBLISHED_SKILL_COMMIT^{commit}"
 "$PYTHON" -B \
   tests/crafting-resumes/behavior/validate_packaging_eval.py \
   --expected-skill-commit "$FOCUSED_SKILL_COMMIT"
 "$PYTHON" -B \
   tests/crafting-resumes/behavior/validate_eval_assets.py
+"$PYTHON" -B \
+  tests/crafting-resumes/behavior/validate_git_metadata.py .
 wc -w skills/crafting-resumes/SKILL.md
 "$PYTHON" -B \
   tests/crafting-resumes/hash_skill_tree.py skills/crafting-resumes
@@ -1898,7 +1905,13 @@ test -z "$(git status --porcelain)"
 git status --short --branch
 ```
 
-Expected: focused and full evidence bind one existing commit; 4 focused cases/8 phase results; 12 full cases/24 manifests with matching output hashes; router ≤500 words; privacy scan has no output outside explicitly synthetic denylist test strings; diff check clean; worktree clean after any required fix commit.
+Expected: focused and full evidence retain the original generation commit
+binding, the equivalence resolver proves its reachable tree-identical
+pre-publication replacement by full-tree and Skill-subtree OID, all reachable
+Git identities use GitHub noreply addresses, 4 focused cases/8 phase results and 12 full
+cases/24 manifests validate with matching output hashes, the router is ≤500
+words, the privacy scan has no output outside explicitly synthetic denylist
+test strings, and diff/status checks are clean.
 
 - [ ] **Step 7: Independently review identity, README, packaging, and privacy**
 
@@ -1935,6 +1948,7 @@ PRIMARY_REPO="$(dirname "$(git -C "$WORKTREE" rev-parse \
 PROJECTS_DIR="$(dirname "$PRIMARY_REPO")"
 NEW_REPO="$PROJECTS_DIR/crafting-resumes"
 FEATURE_SHA="$(git -C "$WORKTREE" rev-parse HEAD)"
+METADATA_VALIDATOR="$WORKTREE/tests/crafting-resumes/behavior/validate_git_metadata.py"
 OLD_REMOTE=git@github.com:juanlou1217/crafting-china-resumes.git
 NEW_REMOTE=git@github.com:juanlou1217/crafting-resumes.git
 test -n "$FEATURE_SHA"
@@ -1958,6 +1972,7 @@ test "$(gh repo view juanlou1217/crafting-china-resumes \
 test "$(git ls-remote "$OLD_REMOTE" refs/heads/main | awk '{print $1}')" = \
   "$(git -C "$PRIMARY_REPO" rev-parse main)"
 git -C "$WORKTREE" verify-commit "$FEATURE_SHA"
+"$PYTHON" -B "$METADATA_VALIDATOR" "$WORKTREE"
 "$PYTHON" -B -m unittest discover \
   -s "$WORKTREE/tests/crafting-resumes" \
   -p 'test_exclusive_rename.py'
@@ -2537,6 +2552,8 @@ test -x "$SYSTEM_PYTHON"
 QUICK_VALIDATE="$CODEX_SKILLS_DIR/.system/skill-creator/scripts/quick_validate.py"
 HASH_TOOL="$NEW_REPO/tests/crafting-resumes/hash_skill_tree.py"
 EXCLUSIVE_RENAME="$NEW_REPO/scripts/exclusive_rename.py"
+COMMIT_EQUIVALENCE="$NEW_REPO/tests/crafting-resumes/behavior/commit_equivalence.py"
+METADATA_VALIDATOR="$NEW_REPO/tests/crafting-resumes/behavior/validate_git_metadata.py"
 SOURCE_SKILL="$NEW_REPO/skills/crafting-resumes"
 NEW_INSTALL="$CODEX_SKILLS_DIR/crafting-resumes"
 OLD_INSTALL="$CODEX_SKILLS_DIR/crafting-china-resumes"
@@ -2693,7 +2710,11 @@ case "$COMPLETION_MODE" in
       'import json, pathlib; print(json.loads(pathlib.Path(
       "tests/crafting-resumes/behavior/packaging-eval/candidate.json"
       ).read_text(encoding="utf-8"))["skill_commit"])')"
-    git cat-file -e "$EVALUATED_SKILL_COMMIT^{commit}"
+    PUBLISHED_SKILL_COMMIT="$(
+      "$PYTHON" -B "$COMMIT_EQUIVALENCE" \
+        "$NEW_REPO" "$EVALUATED_SKILL_COMMIT"
+    )"
+    git cat-file -e "$PUBLISHED_SKILL_COMMIT^{commit}"
     "$PYTHON" -B \
       tests/crafting-resumes/behavior/validate_packaging_eval.py \
       --expected-skill-commit "$EVALUATED_SKILL_COMMIT"
@@ -2738,6 +2759,7 @@ if [[ "$COMPLETION_MODE" != "cleanup" ]]; then
   test -z "$(git status --porcelain)"
   test "$(git remote get-url --push origin)" = "$NEW_REMOTE"
   git verify-commit HEAD
+  "$SYSTEM_PYTHON" -B "$METADATA_VALIDATOR" "$NEW_REPO"
   ssh_output="$(ssh -T -o BatchMode=yes git@github.com 2>&1 || true)"
   rg -F "Hi juanlou1217" <<<"$ssh_output"
   test "$(gh repo view juanlou1217/crafting-resumes \

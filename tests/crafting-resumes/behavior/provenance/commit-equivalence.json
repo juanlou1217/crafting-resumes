@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "kind": "tree-identical-pre-publication-history-rewrite",
+  "original_commit": "48d7110a6de4273dcb3e64bffec1f887d16f5167",
+  "published_commit": "91ea918de813d3a1f3f400682af96afa5055e0f7",
+  "commit_tree_oid": "9b336cf6baa55a3987ef1adaef668daf24655062",
+  "skill_path": "skills/crafting-resumes",
+  "skill_tree_oid": "23ea85ebb907417fe484a0f793550bda57304c64",
+  "reason": "Before the first public push, history was rewritten to remove a private email; commit metadata, ancestry, and signatures changed, while the tracked full tree and Skill subtree remain byte-identical."
+}
