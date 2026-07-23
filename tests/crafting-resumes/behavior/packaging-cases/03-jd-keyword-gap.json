@@ -1,0 +1,13 @@
+{
+  "id": "03-jd-keyword-gap",
+  "prompt": "目标 JD 把 Kubernetes 列为必备技能；我目前只确认有 React 页面开发经历，没有 Kubernetes 学习、项目或工作证据。请优化简历关键词。",
+  "must": [
+    "把 Kubernetes 标为 gap 或 next_question",
+    "保留有证据的 React 关键词",
+    "说明关键词不能仅因 JD 出现就写入简历"
+  ],
+  "must_not": [
+    "把 Kubernetes 写入技能或经历 bullet",
+    "暗示候选人掌握容器编排"
+  ]
+}
