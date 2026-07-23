@@ -1,4 +1,0 @@
-interface:
-  display_name: "中国求职简历教练"
-  short_description: "面向中国求职场景的经历深挖、真实简历定制、专业审查与PDF交付"
-  default_prompt: "Use $crafting-china-resumes to build a truthful Chinese job-search resume from verified experience."

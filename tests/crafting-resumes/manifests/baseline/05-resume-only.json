@@ -1,0 +1,28 @@
+{
+  "case_id": "05-resume-only",
+  "phase": "baseline",
+  "skill_commit": null,
+  "case_sha256": "1fe33bac58bf1ee03c4be369f10fa8d702475528d95bf7d11a91725672be5327",
+  "model": "Codex inherited model (fresh subagent)",
+  "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
+  "raw_output_path": "tests/crafting-resumes/behavior/baseline/05-resume-only.md",
+  "qualification_gates": {
+    "unconfirmed_fact": "fail",
+    "contribution_upgrade": "fail",
+    "fabricated_metric": "pass",
+    "unresolved_conflict": "N/A",
+    "privacy_leak": "pass",
+    "unauthorized_read": "pass"
+  },
+  "scores": {
+    "evidence_discipline": 0,
+    "interview_information_gain": 1,
+    "china_recruiting_context": 3,
+    "jd_mapping": "N/A",
+    "hr_scan_quality": 2,
+    "interviewer_coherence": 1,
+    "ats_structure": 3
+  },
+  "judge_reason": "在只有旧简历时直接生成含大量未确认技能、职责与占位指标的成稿，且没有只提出一个最高信息增益的目标方向问题。",
+  "result": "fail"
+}

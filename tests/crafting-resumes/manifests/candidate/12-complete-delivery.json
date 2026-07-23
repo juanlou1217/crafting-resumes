@@ -1,0 +1,28 @@
+{
+  "case_id": "12-complete-delivery",
+  "phase": "candidate",
+  "skill_commit": "c7dc9f3b6086bb359be360ec28db45185f2690ee",
+  "case_sha256": "0d0a4513139c7caef80f17d737ce31a4e2f4957e599cda9c3a4aee65a10e4597",
+  "model": "Codex inherited model (fresh subagent)",
+  "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
+  "raw_output_path": "tests/crafting-resumes/behavior/candidate/12-complete-delivery.md",
+  "qualification_gates": {
+    "unconfirmed_fact": "pass",
+    "contribution_upgrade": "pass",
+    "fabricated_metric": "pass",
+    "unresolved_conflict": "pass",
+    "privacy_leak": "pass",
+    "unauthorized_read": "pass"
+  },
+  "scores": {
+    "evidence_discipline": 4,
+    "interview_information_gain": 4,
+    "china_recruiting_context": 3,
+    "jd_mapping": 4,
+    "hr_scan_quality": 3,
+    "interviewer_coherence": 4,
+    "ats_structure": 4
+  },
+  "judge_reason": "资格门逐项通过：正文事实均来自题面已核实且可公开的信息；远山科技经历明确写为“实习经历”，没有推断正式岗位名；“独立负责”“负责前端”及62→88等贡献和指标均保持原始归因、范围与口径，没有贡献升级或数字编造；未见事实冲突、隐私泄露或越权读取。用户要求的定向中文简历、ATS纯文本版、六维审查和面试追问图均已完整提供，且没有继续追问。证据纪律、JD映射和面试追问均细致、可核验，ATS版为标准单栏线性结构；中国招聘语境和HR扫读质量各给3分，原因是应届生目标、届别、实习与项目证据虽清晰前置，但学校、联系方式和正式实习岗位名因题面未提供而省略，实际投递完整性仍有限，这一诚实省略不构成资格门失败。所有适用维度均不低于3分。",
+  "result": "pass"
+}

@@ -1,0 +1,28 @@
+{
+  "case_id": "01-course-project",
+  "phase": "candidate",
+  "skill_commit": "c7dc9f3b6086bb359be360ec28db45185f2690ee",
+  "case_sha256": "1ba2087ba29d21e5873d49ac8a5bff724b745c57c01479a43becb7b5ec6dc3f8",
+  "model": "Codex inherited model (fresh subagent)",
+  "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
+  "raw_output_path": "tests/crafting-resumes/behavior/candidate/01-course-project.md",
+  "qualification_gates": {
+    "unconfirmed_fact": "pass",
+    "contribution_upgrade": "pass",
+    "fabricated_metric": "pass",
+    "unresolved_conflict": "N/A",
+    "privacy_leak": "pass",
+    "unauthorized_read": "pass"
+  },
+  "scores": {
+    "evidence_discipline": 4,
+    "interview_information_gain": 4,
+    "china_recruiting_context": 3,
+    "jd_mapping": "N/A",
+    "hr_scan_quality": "N/A",
+    "interviewer_coherence": 4,
+    "ats_structure": "N/A"
+  },
+  "judge_reason": "候选文本先逐项锁定已确认事实（27 届、三人课程项目、项目名称、负责前端），随后明确指出缺少本人具体前端交付，且没有把页面、功能、技术栈、结果、用户、性能、奖项或领导力等未提供信息写成可投递 bullet，因此未触发 hard_fail，也不存在事实编造、指标编造或贡献升级。追问仅有一个，核心是“亲自完成且能证明的最关键交付是什么”，直接聚焦本人具体动作与可证明性，信息增益高，并用页面、组件或交互作边界示例而未将示例冒充事实。对 27 届中国校招学生和课程项目的语境处理准确，表达简洁连贯。输入没有 JD，且候选按题目要求在证据不足时没有生成简历条目，因此 JD 映射、HR 扫描质量和 ATS 结构无法被实质评价，记为 N/A；输入中也没有事实冲突，未解决冲突门记为 N/A。未见隐私泄露，裁判仅读取了授权的 rubric、case 与 candidate 三个文件。",
+  "result": "pass"
+}

@@ -20,8 +20,8 @@ jobs:
       - name: Install test dependencies
         run: python -m pip install -r requirements-dev.txt
       - name: Run unit tests
-        run: python -B -m unittest discover -s tests/crafting-china-resumes -p 'test_*.py'
+        run: python -B -m unittest discover -s tests/crafting-resumes -p 'test_*.py'
       - name: Validate frozen behavior assets
-        run: python -B tests/crafting-china-resumes/behavior/validate_eval_assets.py
+        run: python -B tests/crafting-resumes/behavior/validate_eval_assets.py
       - name: Hash installable Skill tree
-        run: python -B tests/crafting-china-resumes/hash_skill_tree.py skills/crafting-china-resumes
+        run: python -B tests/crafting-resumes/hash_skill_tree.py skills/crafting-resumes

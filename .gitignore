@@ -14,5 +14,5 @@ dist/
 .env.*
 
 # Real-machine acceptance evidence stays outside the standalone repository.
-tests/crafting-china-resumes/manifests/installation.json
-tests/crafting-china-resumes/manifests/pdf-real-acceptance.json
+tests/crafting-resumes/manifests/installation.json
+tests/crafting-resumes/manifests/pdf-real-acceptance.json

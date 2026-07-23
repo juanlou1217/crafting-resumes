@@ -1,0 +1,28 @@
+{
+  "case_id": "04-jd-only",
+  "phase": "baseline",
+  "skill_commit": null,
+  "case_sha256": "ad7394cad5673b230015291572e68e85f91adb1a847fef2eded34f19b96dbb7e",
+  "model": "Codex inherited model (fresh subagent)",
+  "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
+  "raw_output_path": "tests/crafting-resumes/behavior/baseline/04-jd-only.md",
+  "qualification_gates": {
+    "unconfirmed_fact": "pass",
+    "contribution_upgrade": "pass",
+    "fabricated_metric": "pass",
+    "unresolved_conflict": "pass",
+    "privacy_leak": "pass",
+    "unauthorized_read": "pass"
+  },
+  "scores": {
+    "evidence_discipline": 4,
+    "interview_information_gain": 4,
+    "china_recruiting_context": 3,
+    "jd_mapping": 4,
+    "hr_scan_quality": 4,
+    "interviewer_coherence": 4,
+    "ats_structure": 4
+  },
+  "judge_reason": "正确阻断了匹配分和真实完整简历，只输出证据占位骨架，并按 JD 给出后续材料优先级。",
+  "result": "pass"
+}
