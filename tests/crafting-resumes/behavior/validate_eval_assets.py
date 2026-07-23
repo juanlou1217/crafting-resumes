@@ -31,6 +31,7 @@ MANIFEST_KEYS = {
     "model",
     "environment",
     "raw_output_path",
+    "output_sha256",
     "qualification_gates",
     "scores",
     "judge_reason",
@@ -296,7 +297,27 @@ def load_manifests(
                 raise ValidationError(
                     f"raw_output_path must not contain '..': {path.name}"
                 )
-            resolve_safe_file(root / raw_output_path, root, "raw_output_path")
+            output_sha256 = manifest.get("output_sha256")
+            if not (
+                isinstance(output_sha256, str)
+                and re.fullmatch(r"[0-9a-f]{64}", output_sha256)
+            ):
+                raise ValidationError(
+                    "output_sha256 must be 64 lowercase hex characters: "
+                    f"{path.name}"
+                )
+            output_path = resolve_safe_file(
+                root / raw_output_path,
+                root,
+                "raw_output_path",
+            )
+            actual_output_sha256 = hashlib.sha256(
+                output_path.read_bytes()
+            ).hexdigest()
+            if output_sha256 != actual_output_sha256:
+                raise ValidationError(
+                    f"output_sha256 mismatch: {path.name}"
+                )
             manifests.append((safe_path, manifest))
     return manifests
 
@@ -353,6 +374,19 @@ def validate_assets(root: Path) -> tuple[int, int]:
                     "candidate must not regress on a baseline-pass case: "
                     f"{case_id}"
                 )
+        for case_id in sorted(expected_case_ids):
+            if candidate_by_case[case_id]["result"] != "pass":
+                raise ValidationError(
+                    f"candidate result must be pass: {case_id}"
+                )
+        candidate_skill_commits = {
+            manifest["skill_commit"]
+            for manifest in candidate_by_case.values()
+        }
+        if len(candidate_skill_commits) != 1:
+            raise ValidationError(
+                "candidate manifests must share one skill commit"
+            )
     case_count = len(cases)
     manifest_count = len(manifests)
     return case_count, manifest_count

@@ -55,6 +55,10 @@ class PackagingContractTests(unittest.TestCase):
     def test_reference_contains_exact_evidence_gate_rows(self) -> None:
         reference_text = REFERENCE_FILE.read_text(encoding="utf-8")
 
+        self.assertIn(
+            "下表是检索摘要，不是独立最低门槛",
+            reference_text,
+        )
         for row in EVIDENCE_GATE_ROWS:
             with self.subTest(row=row):
                 self.assertIn(row, reference_text)

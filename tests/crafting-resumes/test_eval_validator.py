@@ -66,7 +66,8 @@ class EvalValidatorTests(unittest.TestCase):
             raw_relative = Path(
                 f"tests/crafting-resumes/behavior/{phase}/{case_id}.md"
             )
-            (root / raw_relative).write_text("synthetic output\n", encoding="utf-8")
+            output_bytes = b"synthetic output\n"
+            (root / raw_relative).write_bytes(output_bytes)
             manifest = {
                 "case_id": case_id,
                 "phase": phase,
@@ -75,6 +76,7 @@ class EvalValidatorTests(unittest.TestCase):
                 "model": "test-model",
                 "environment": "unit-test",
                 "raw_output_path": raw_relative.as_posix(),
+                "output_sha256": hashlib.sha256(output_bytes).hexdigest(),
                 "qualification_gates": {
                     "unconfirmed_fact": "pass",
                     "contribution_upgrade": "pass",
@@ -182,6 +184,84 @@ class EvalValidatorTests(unittest.TestCase):
         self.assertNotEqual(completed.returncode, 0)
         self.assertIn(
             "candidate must not regress on a baseline-pass case",
+            completed.stderr,
+        )
+
+    def test_rejects_tampered_candidate_output_hash(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.copy_eval_tree(root)
+            self.write_phase_manifests(root, "baseline")
+            candidate_path = self.write_phase_manifests(
+                root, "candidate"
+            )[0]
+            candidate = json.loads(
+                candidate_path.read_text(encoding="utf-8")
+            )
+            (root / candidate["raw_output_path"]).write_text(
+                "tampered candidate output\n",
+                encoding="utf-8",
+            )
+
+            completed = self.run_validator(root)
+
+        self.assert_stable_validation_failure(completed)
+        self.assertIn("output_sha256 mismatch", completed.stderr)
+
+    def test_rejects_candidate_result_fail_after_regression_check(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.copy_eval_tree(root)
+            baseline_paths = self.write_phase_manifests(root, "baseline")
+            baseline = json.loads(
+                baseline_paths[0].read_text(encoding="utf-8")
+            )
+            baseline["result"] = "fail"
+            baseline["scores"]["evidence_discipline"] = 2
+            baseline_paths[0].write_text(
+                json.dumps(baseline, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            candidate_path = self.write_phase_manifests(
+                root, "candidate"
+            )[0]
+            candidate = json.loads(
+                candidate_path.read_text(encoding="utf-8")
+            )
+            candidate["result"] = "fail"
+            candidate["scores"]["evidence_discipline"] = 2
+            candidate_path.write_text(
+                json.dumps(candidate, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            completed = self.run_validator(root)
+
+        self.assert_stable_validation_failure(completed)
+        self.assertIn("candidate result must be pass", completed.stderr)
+
+    def test_rejects_mixed_candidate_skill_commits(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.copy_eval_tree(root)
+            self.write_phase_manifests(root, "baseline")
+            candidate_path = self.write_phase_manifests(
+                root, "candidate"
+            )[0]
+            candidate = json.loads(
+                candidate_path.read_text(encoding="utf-8")
+            )
+            candidate["skill_commit"] = "b" * 40
+            candidate_path.write_text(
+                json.dumps(candidate, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            completed = self.run_validator(root)
+
+        self.assert_stable_validation_failure(completed)
+        self.assertIn(
+            "candidate manifests must share one skill commit",
             completed.stderr,
         )
 

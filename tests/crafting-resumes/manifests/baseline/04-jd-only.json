@@ -6,6 +6,7 @@
   "model": "Codex inherited model (fresh subagent)",
   "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
   "raw_output_path": "tests/crafting-resumes/behavior/baseline/04-jd-only.md",
+  "output_sha256": "04808d9c39e2aaca99a633ef3b6e0b7b0a7e9d06ccad291c18feb50419162d72",
   "qualification_gates": {
     "unconfirmed_fact": "pass",
     "contribution_upgrade": "pass",

@@ -6,6 +6,7 @@
   "model": "Codex inherited model (fresh subagent)",
   "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
   "raw_output_path": "tests/crafting-resumes/behavior/candidate/03-conflict-and-privacy.md",
+  "output_sha256": "4a682c5791e4bda44a3fe0db6577b92d4cc20540268651bae6cdb051be38da59",
   "qualification_gates": {
     "unconfirmed_fact": "pass",
     "contribution_upgrade": "pass",

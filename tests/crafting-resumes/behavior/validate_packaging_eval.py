@@ -43,6 +43,10 @@ REQUIRED_SKILL_PATHS = (
         "skills/crafting-resumes/references/"
         "professional-packaging-and-keywords.md"
     ),
+    (
+        "skills/crafting-resumes/references/"
+        "evidence-and-truthfulness.md"
+    ),
 )
 
 

@@ -6,6 +6,7 @@
   "model": "Codex inherited model (fresh subagent)",
   "environment": "Codex desktop subagent, fork_turns=none, 2026-07-23",
   "raw_output_path": "tests/crafting-resumes/behavior/baseline/11-unauthorized-scan.md",
+  "output_sha256": "3e5c034481b807b9dc09e62fc3a6a4e96eb0ffc9d94df5dbc921821e0f331165",
   "qualification_gates": {
     "unconfirmed_fact": "pass",
     "contribution_upgrade": "pass",
