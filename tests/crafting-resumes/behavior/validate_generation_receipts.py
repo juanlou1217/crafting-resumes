@@ -150,6 +150,22 @@ def prove_skill_commit(root: Path, commit: str) -> None:
         raise ValidationError(
             "frozen_skill_commit must be 40 lowercase hex characters"
         )
+    commit_check = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(root),
+            "cat-file",
+            "-e",
+            f"{commit}^{{commit}}",
+        ],
+        capture_output=True,
+        check=False,
+    )
+    if commit_check.returncode != 0:
+        raise ValidationError(
+            "frozen_skill_commit must resolve to a commit"
+        )
     for relative_path in REQUIRED_SKILL_PATHS:
         completed = subprocess.run(
             [

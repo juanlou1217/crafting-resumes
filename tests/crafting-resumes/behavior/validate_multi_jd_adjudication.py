@@ -27,6 +27,17 @@ JUDGMENT_NAMES = (
     "06-multi-jd-adjudicator-a.json",
     "06-multi-jd-adjudicator-b.json",
 )
+JUDGE_TASKS = {
+    "06-multi-jd-first-judge.json": (
+        "/root/task5_refresh_behavior/full06_rejudge_clean"
+    ),
+    "06-multi-jd-adjudicator-a.json": (
+        "/root/task5_refresh_behavior/full06_adjudicator_a"
+    ),
+    "06-multi-jd-adjudicator-b.json": (
+        "/root/task5_refresh_behavior/full06_adjudicator_b"
+    ),
+}
 DISPOSITION_RELATIVE = (
     REGRESSION_ROOT / "06-multi-jd-adjudication.md"
 )
@@ -38,7 +49,9 @@ ANONYMOUS_LABEL = "C8"
 JUDGMENT_KEYS = {
     "case_id",
     "anonymous_label",
+    "case_sha256",
     "output_sha256",
+    "judge_task",
     "judge_protocol",
     "must",
     "must_not",
@@ -98,9 +111,35 @@ def reject_duplicate_keys(
     return result
 
 
-def read_json(path: Path, label: str) -> dict[str, Any]:
-    if path.is_symlink() or not path.is_file():
-        raise ValidationError(f"{label} must be a regular non-symlink file")
+def safe_file(root: Path, relative_path: Path, label: str) -> Path:
+    if relative_path.is_absolute() or ".." in relative_path.parts:
+        raise ValidationError(f"{label} must stay inside repository")
+    current = root
+    for part in relative_path.parts:
+        current /= part
+        if current.is_symlink():
+            raise ValidationError(
+                f"{label} path must not contain symlinks"
+            )
+    try:
+        resolved = current.resolve(strict=True)
+    except (FileNotFoundError, RuntimeError) as error:
+        raise ValidationError(f"{label} must exist safely") from error
+    try:
+        resolved.relative_to(root)
+    except ValueError as error:
+        raise ValidationError(f"{label} escapes repository") from error
+    if not resolved.is_file():
+        raise ValidationError(f"{label} must be a regular file")
+    return resolved
+
+
+def read_json(
+    root: Path,
+    relative_path: Path,
+    label: str,
+) -> dict[str, Any]:
+    path = safe_file(root, relative_path, label)
     try:
         text = path.read_text(encoding="utf-8")
     except UnicodeDecodeError as error:
@@ -125,6 +164,16 @@ def canonical_digest(value: dict[str, Any]) -> str:
         separators=(",", ":"),
     ).encode("utf-8")
     return sha256(raw)
+
+
+def vote_digest(value: dict[str, Any]) -> str:
+    return canonical_digest(
+        {
+            key: field
+            for key, field in value.items()
+            if key != "judge_task"
+        }
+    )
 
 
 def validate_checks(
@@ -162,7 +211,9 @@ def validate_checks(
 def validate_judgment(
     judgment: dict[str, Any],
     case: dict[str, Any],
+    case_sha256: str,
     output_sha256: str,
+    judge_task: str,
     label: str,
 ) -> None:
     if set(judgment) != JUDGMENT_KEYS:
@@ -172,19 +223,25 @@ def validate_judgment(
     exact_values = {
         "case_id": "06-multi-jd",
         "anonymous_label": ANONYMOUS_LABEL,
+        "case_sha256": case_sha256,
         "output_sha256": output_sha256,
+        "judge_task": judge_task,
         "judge_protocol": JUDGE_PROTOCOL,
     }
     for field, expected in exact_values.items():
         actual = judgment[field]
-        if field == "output_sha256" and (
+        if field in {"case_sha256", "output_sha256"} and (
             not isinstance(actual, str)
             or LOWER_HEX_64.fullmatch(actual) is None
         ):
             raise ValidationError(
-                f"{label} output_sha256 must be 64 lowercase hex"
+                f"{label} {field} must be 64 lowercase hex"
             )
         if actual != expected:
+            if field == "case_sha256":
+                raise ValidationError(
+                    "judgment records must bind the exact case bytes"
+                )
             if field == "output_sha256":
                 raise ValidationError(
                     "judgment records must bind the exact candidate output"
@@ -240,14 +297,21 @@ def validate_adjudication(
 ) -> tuple[str, str, str]:
     resolved_root = root.resolve(strict=True)
     case = read_json(
-        resolved_root / CASE_RELATIVE,
+        resolved_root,
+        CASE_RELATIVE,
         "multi-JD case",
     )
-    output_path = resolved_root / OUTPUT_RELATIVE
-    if output_path.is_symlink() or not output_path.is_file():
-        raise ValidationError(
-            "multi-JD candidate output must be a regular file"
-        )
+    case_path = safe_file(
+        resolved_root,
+        CASE_RELATIVE,
+        "multi-JD case",
+    )
+    case_sha256 = sha256(case_path.read_bytes())
+    output_path = safe_file(
+        resolved_root,
+        OUTPUT_RELATIVE,
+        "multi-JD candidate output",
+    )
     output_bytes = output_path.read_bytes()
     try:
         output_bytes.decode("utf-8")
@@ -258,16 +322,29 @@ def validate_adjudication(
     judgments: list[tuple[str, dict[str, Any]]] = []
     for name in JUDGMENT_NAMES:
         judgment = read_json(
-            resolved_root / REGRESSION_ROOT / name,
+            resolved_root,
+            REGRESSION_ROOT / name,
             f"multi-JD judgment {name}",
         )
         validate_judgment(
             judgment,
             case,
+            case_sha256,
             output_sha256,
+            JUDGE_TASKS[name],
             name,
         )
         judgments.append((name, judgment))
+    if len({value["judge_task"] for _, value in judgments}) != len(
+        judgments
+    ):
+        raise ValidationError("judgment tasks must be unique")
+    if len({vote_digest(value) for _, value in judgments}) != len(
+        judgments
+    ):
+        raise ValidationError(
+            "judgment votes must be independently distinct"
+        )
 
     pass_count = sum(
         judgment["result"] == "pass" for _, judgment in judgments
@@ -285,7 +362,8 @@ def validate_adjudication(
     selected_digest, selected_name, selected = min(agreeing)
 
     manifest = read_json(
-        resolved_root / MANIFEST_RELATIVE,
+        resolved_root,
+        MANIFEST_RELATIVE,
         "multi-JD candidate manifest",
     )
     if manifest.get("output_sha256") != output_sha256:
@@ -299,24 +377,37 @@ def validate_adjudication(
                 f"{field}"
             )
 
-    disposition_path = resolved_root / DISPOSITION_RELATIVE
-    if disposition_path.is_symlink() or not disposition_path.is_file():
-        raise ValidationError(
-            "multi-JD disposition must be a regular file"
-        )
+    disposition_path = safe_file(
+        resolved_root,
+        DISPOSITION_RELATIVE,
+        "multi-JD disposition",
+    )
     disposition = disposition_path.read_text(encoding="utf-8")
-    required_lines = (
-        f"Candidate output SHA-256: `{output_sha256}`.",
-        f"Aggregation rule: `{AGGREGATION_RULE}`.",
+    required_bindings = (
         (
-            f"Selected judgment: `{selected_name}` "
-            f"(`{selected_digest}`)."
+            "Candidate output SHA-256:",
+            f"Candidate output SHA-256: `{output_sha256}`.",
+        ),
+        (
+            "Aggregation rule:",
+            f"Aggregation rule: `{AGGREGATION_RULE}`.",
+        ),
+        (
+            "Selected judgment:",
+            (
+                f"Selected judgment: `{selected_name}` "
+                f"(`{selected_digest}`)."
+            ),
         ),
     )
-    for line in required_lines:
-        if line not in disposition:
+    stripped_lines = [line.strip() for line in disposition.splitlines()]
+    for prefix, expected_line in required_bindings:
+        matching_lines = [
+            line for line in stripped_lines if line.startswith(prefix)
+        ]
+        if matching_lines != [expected_line]:
             raise ValidationError(
-                "multi-JD disposition missing deterministic binding"
+                "multi-JD disposition binding must be unique and exact"
             )
     return majority_result, selected_name, selected_digest
 

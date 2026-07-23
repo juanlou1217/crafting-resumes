@@ -383,6 +383,7 @@ def validate_assets(root: Path) -> tuple[int, int]:
                     "candidate must not regress on a baseline-pass case: "
                     f"{case_id}"
                 )
+    if candidate_by_case:
         for case_id in sorted(expected_case_ids):
             if candidate_by_case[case_id]["result"] != "pass":
                 raise ValidationError(
@@ -400,24 +401,30 @@ def validate_assets(root: Path) -> tuple[int, int]:
             resolved_root
             / "tests/crafting-resumes/behavior/provenance"
         )
-        if provenance_root.exists():
-            try:
-                validate_receipts(
-                    resolved_root,
-                    next(iter(candidate_skill_commits)),
-                )
-            except ReceiptValidationError as error:
-                raise ValidationError(str(error)) from error
+        if provenance_root.is_symlink() or not provenance_root.is_dir():
+            raise ValidationError(
+                "candidate release evidence is required: provenance"
+            )
+        try:
+            validate_receipts(
+                resolved_root,
+                next(iter(candidate_skill_commits)),
+            )
+        except ReceiptValidationError as error:
+            raise ValidationError(str(error)) from error
         adjudication_path = (
             resolved_root
             / "tests/crafting-resumes/behavior/regressions/"
             "06-multi-jd-adjudication.md"
         )
-        if adjudication_path.exists():
-            try:
-                validate_adjudication(resolved_root)
-            except AdjudicationValidationError as error:
-                raise ValidationError(str(error)) from error
+        if adjudication_path.is_symlink() or not adjudication_path.is_file():
+            raise ValidationError(
+                "candidate release evidence is required: adjudication"
+            )
+        try:
+            validate_adjudication(resolved_root)
+        except AdjudicationValidationError as error:
+            raise ValidationError(str(error)) from error
     case_count = len(cases)
     manifest_count = len(manifests)
     return case_count, manifest_count

@@ -146,7 +146,7 @@ class EvalValidatorTests(unittest.TestCase):
             "Validated 12 frozen cases, 0 eval manifests.\n",
         )
 
-    def test_accepts_complete_baseline_and_candidate_manifests(self) -> None:
+    def test_rejects_candidate_without_release_evidence(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)
             self.copy_eval_tree(root)
@@ -155,10 +155,10 @@ class EvalValidatorTests(unittest.TestCase):
 
             completed = self.run_validator(root)
 
-        self.assertEqual(completed.returncode, 0, completed.stderr)
-        self.assertEqual(
-            completed.stdout,
-            "Validated 12 frozen cases, 24 eval manifests.\n",
+        self.assert_stable_validation_failure(completed)
+        self.assertIn(
+            "candidate release evidence is required",
+            completed.stderr,
         )
 
     def test_rejects_candidate_regression_on_baseline_pass_case(self) -> None:

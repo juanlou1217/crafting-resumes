@@ -297,6 +297,31 @@ class GenerationReceiptTests(unittest.TestCase):
             "focused receipt files must be exactly",
         )
 
+    def test_rejects_git_tree_object_as_skill_commit(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            commit, receipts = self.build_fixture(root)
+            tree = subprocess.run(
+                ["git", "-C", str(root), "rev-parse", f"{commit}^{{tree}}"],
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            for path in receipts:
+                receipt = json.loads(path.read_text(encoding="utf-8"))
+                receipt["frozen_skill_commit"] = tree
+                path.write_text(
+                    json.dumps(receipt, ensure_ascii=False, indent=2) + "\n",
+                    encoding="utf-8",
+                )
+
+            completed = self.run_validator(root, tree)
+
+        self.assert_failure(
+            completed,
+            "frozen_skill_commit must resolve to a commit",
+        )
+
     def test_repository_receipts_bind_current_outputs(self) -> None:
         receipt = json.loads(
             (

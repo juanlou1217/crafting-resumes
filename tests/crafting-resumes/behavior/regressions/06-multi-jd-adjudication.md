@@ -4,7 +4,7 @@ Candidate output SHA-256: `6eece08b871942e1662f049253becdeab4b8cb89bce6ed845be89
 
 Aggregation rule: `strict-majority-v1; selected by lowest canonical SHA-256 among judgments agreeing with the majority`.
 
-Selected judgment: `06-multi-jd-adjudicator-a.json` (`a769682a85ffdfccdcad416ffbb52a0db73d46e20ca91bcd332e3fb9811fa18a`).
+Selected judgment: `06-multi-jd-adjudicator-a.json` (`0ed926949e5e271ca24b1f642f73c1228c1012f1ed1e0656277c29b29f851dbe`).
 
 The first blind judge passed every frozen `must`, `must_not`, hard-fail, and qualification criterion, but returned `fail` after treating interview questioning as applicable and scoring both interview information gain and HR scan quality at 2.
 
