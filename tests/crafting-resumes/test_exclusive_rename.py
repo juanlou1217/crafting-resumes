@@ -250,6 +250,14 @@ class ExclusiveRenameTests(unittest.TestCase):
             "a mounted source must not pass the parent filesystem guard",
         )
         source.st_dev = 41
+        source_parent.st_dev = 42
+        self.assertFalse(
+            self.helper._same_filesystem(
+                source, source_parent, target_parent
+            ),
+            "a source parent on another device must be rejected",
+        )
+        source_parent.st_dev = 41
         target_parent.st_dev = 43
         self.assertFalse(
             self.helper._same_filesystem(
