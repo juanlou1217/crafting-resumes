@@ -200,6 +200,28 @@ class MultiJdAdjudicationTests(unittest.TestCase):
             "judgment records must bind the exact candidate output",
         )
 
+    def test_validates_all_check_blocks_after_an_earlier_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            self.build_fixture(root)
+            path = root / REGRESSION_ROOT / JUDGMENT_NAMES[0]
+            judgment = json.loads(path.read_text(encoding="utf-8"))
+            judgment["must"][0]["pass"] = False
+            judgment["must_not"] = "malformed"
+            judgment["hard_fail"] = None
+            judgment["result"] = "fail"
+            path.write_text(
+                json.dumps(judgment, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            completed = self.run_validator(root)
+
+        self.assert_failure(
+            completed,
+            "must_not must match frozen criteria",
+        )
+
     def test_rejects_manifest_chosen_by_hand_instead_of_rule(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             root = Path(temporary_directory)

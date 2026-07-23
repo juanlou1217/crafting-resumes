@@ -248,14 +248,15 @@ def validate_judgment(
                 )
             raise ValidationError(f"{label} {field} mismatch")
 
-    checks_pass = all(
+    check_results = [
         validate_checks(
             judgment[field],
             case[field],
             f"{label} {field}",
         )
         for field in ("must", "must_not", "hard_fail")
-    )
+    ]
+    checks_pass = all(check_results)
     gates = judgment["qualification_gates"]
     if not isinstance(gates, dict) or set(gates) != GATE_KEYS:
         raise ValidationError(f"{label} qualification gate schema invalid")
