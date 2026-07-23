@@ -22,6 +22,7 @@ EXPECTED_REFERENCES = {
     "references/modes-and-state-machine.md",
     "references/obsidian-pdf-delivery.md",
     "references/output-contracts.md",
+    "references/professional-packaging-and-keywords.md",
     "references/resume-writing.md",
     "references/review-rubrics.md",
     "references/role-playbooks-campus-and-transition.md",

@@ -60,14 +60,24 @@ JD 词只能用于检索和组织已有事实，不能创造候选人事实。�
 
 技能清单只证明候选人声称接触该技能，不等于项目证据、熟练度或结果。它通常只能形成 `weak`；只有同一技能绑定到已确认的具体动作、来源和边界后，才可按证据判断 `covered`。`pending_confirmation`、`model_inference` 与 `conflict` 不得支撑 `covered`。
 
+## 关键词证据映射
+
+JD requirement 映射完成后、进入写作前，按 `professional-packaging-and-keywords.md` 生成条件中间产物 `keyword_evidence_map`。字段固定为：
+
+| `keyword` | `source` | `candidate_evidence` | `match_strength` | `allowed_surface` | `status` |
+| --- | --- | --- | --- | --- | --- |
+| JD 原词或岗位补充词 | JD 位置及候选 claim 来源 | 已确认 claim；无则写“无” | `direct`、`semantic_equivalent`、`adjacent`、`none` | 允许出现的栏目/bullet，或仅风险/提问 | `include`、`deprioritize`、`gap`、`do_not_force`、`next_question` |
+
+`covered` 或语义等价的 `weak` 也只能按证据支持的职责、场景与结果强度表达；`adjacent` 不得冒充直接经验。JD 出现但无证据的词标为 `gap`、`do_not_force` 或必要时的 `next_question`，不能仅因 ATS 需要写入简历。
+
 ## 工作顺序
 
 1. 填完固定 JD 提取结构，再原样拆出硬门、核心职责、技能和加分项；去重但保留每处原文来源。
 2. 标权重与依据；高权重硬门无证据时单列风险，不用其他分数抵消。
 3. 从唯一事实台账检索直接证据，再检索可迁移或学习/个人项目证据；三者不得互换。
-4. 逐项选择四种状态，记录来源和边界。关键词只有绑定证据时才能进入简历。
+4. 逐项选择四种状态，记录来源和边界；再生成 `keyword_evidence_map`。关键词只有绑定证据时才能进入简历。
 5. 只把 `confirmed` 且满足当前产物披露范围的内容交给写作：`private_review_draft` 可使用用户本轮已确认、最小泛化并标记 `needs_redaction` 的事实；公开版本必须另有公开许可或确认脱敏。普通 `gap` 或 `weak` 不阻断诚实版本。
-6. 用户补证或推翻事实时，先更新唯一台账，再使所有受影响映射、版本、差异和审查失效并重算。
+6. 用户补证或推翻事实时，先更新唯一台账，再使所有受影响映射、关键词映射、版本、差异和审查失效并重算。
 
 ## 多 JD 合同
 

@@ -13,6 +13,8 @@ Only `confirmed` facts may enter a deliverable resume. Never invent numbers, upg
 
 Read `references/modes-and-state-machine.md` to route the available inputs. Read `references/evidence-and-truthfulness.md` before interpreting or rewriting any candidate claim.
 
+Read `references/professional-packaging-and-keywords.md` before any resume drafting, keyword optimization, or JD-language translation. It defines the required evidence gates and strong, truthful fallback wording.
+
 Read `references/experience-interview.md` whenever an experience is raw, thin, ordinary, incomplete, or otherwise lacks enough confirmed evidence for a deliverable claim; follow its one-question turn contract before drafting.
 
 Do not scan a workspace, home directory, knowledge base, or repository unless the user explicitly authorizes exact paths. Treat model inference as non-deliverable.

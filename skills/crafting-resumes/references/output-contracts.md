@@ -9,8 +9,9 @@
 1. `target_and_jd`：已确认求职目标；有 JD 时保留 JD 原文、权重和解析，无 JD 时明确 `N/A`。
 2. `evidence_ledger`：唯一事实台账及来源、状态、归因、保密和允许产物。
 3. `jd_mapping`：有 JD 和候选证据时输出 `covered`、`weak`、`gap`、`do_not_force`；缺任一输入时为 `N/A`。
-4. `current_one_question`：只有关键缺口或资格门阻断下一步时才出现，并且整轮正好一个问题；事实完整且用户要求交付时省略。
-5. `risks_and_conflicts`：真实性、日期/数字/职责冲突、隐私、高权重 JD gap 与面试风险。
+4. `keyword_evidence_map`：写作或关键词优化时按 `professional-packaging-and-keywords.md` 条件输出，固定字段为 `keyword/source/candidate_evidence/match_strength/allowed_surface/status`；仅 JD 解析或不涉及写作时可省略。
+5. `current_one_question`：只有关键缺口或资格门阻断下一步时才出现，并且整轮正好一个问题；事实完整且用户要求交付时省略。
+6. `risks_and_conflicts`：真实性、日期/数字/职责冲突、隐私、高权重 JD gap 与面试风险。
 
 中间产物可以显示非 `confirmed` 项的状态与风险，但不能把它们写成候选人事实。
 
@@ -33,10 +34,11 @@
 2. **JD 分析与映射**：`## JD 分析` 先按 `jd-mapping.md` 的 11 个提取字段输出；随后 `## JD 证据映射`，表头固定为 `jd_original | requirement_type | weight | candidate_evidence | source | status | reason | resume_action`。
 3. **定向简历**：先写 `状态`，再按实际存在信息使用 `姓名/求职目标 → 个人概况（可选）→ 核心技能 → 工作/实习经历 → 项目经历 → 教育经历 → 证书奖项（可选）`；校招与社招可按 `resume-writing.md` 调序，不改变时间线。
 4. **ATS 纯文本**：`## ATS 纯文本版` 后只放单栏 `text` 代码块；使用与定向简历一致的标准栏目与逐字事实，不放表格、图标、页眉页脚或隐藏词。
-5. **版本差异**：表头固定为 `事实 claim | 版本 A：保留/顺序/措辞及原因 | 版本 B：保留/顺序/措辞及原因 | 不变的事实边界`；每增加一个版本就增加一列。
-6. **面试追问图**：使用 `review-rubrics.md` 固定的 `claim/source/ownership/method/tradeoff/metric/source-risk/status/action` 表，不替候选人编答案。
-7. **招聘沟通草稿**：仅按用户点名输出。Boss 开场白固定为 `身份与目标（1句）→ 最相关证据（1–2句）→ 针对岗位的沟通请求（1句）`；猎头摘要固定为 `目标与层级 | 最近相关经历 | 三条可核验证据 | 明确缺口/边界 | 求职约束`；申请邮件/求职信固定为 `主题 → 称呼 → 申请目的 → 2–3条证据与岗位关联 → 诚实缺口（如影响判断）→ 下一步请求 → 署名`。
-8. **风险/冲突报告**：`## 风险与冲突`，表头固定为 `type | affected_claim | source/status | impact | safe_action | blocking_scope`；资格门失败、待确认和不适用必须分开，不用总分掩盖。
+5. **修改说明 / packaging notes**：列出使用的高价值关键词、对应证据、未添加的信息、降级表达与 `gap/do_not_force`；不得把写作理由变成新的候选人事实。
+6. **版本差异**：表头固定为 `事实 claim | 版本 A：保留/顺序/措辞及原因 | 版本 B：保留/顺序/措辞及原因 | 不变的事实边界`；每增加一个版本就增加一列。
+7. **面试追问图**：使用 `review-rubrics.md` 固定的 `claim/source/ownership/method/tradeoff/metric/source-risk/status/action` 表，不替候选人编答案。
+8. **招聘沟通草稿**：仅按用户点名输出。Boss 开场白固定为 `身份与目标（1句）→ 最相关证据（1–2句）→ 针对岗位的沟通请求（1句）`；猎头摘要固定为 `目标与层级 | 最近相关经历 | 三条可核验证据 | 明确缺口/边界 | 求职约束`；申请邮件/求职信固定为 `主题 → 称呼 → 申请目的 → 2–3条证据与岗位关联 → 诚实缺口（如影响判断）→ 下一步请求 → 署名`。
+9. **风险/冲突报告**：`## 风险与冲突`，表头固定为 `type | affected_claim | source/status | impact | safe_action | blocking_scope`；资格门失败、待确认和不适用必须分开，不用总分掩盖。
 
 原生 PDF 以用户确认后的 Markdown 为唯一内容输入，不需要旧式结构化简历 JSON；Markdown 与 ATS 文本不依赖 PDF 环境。
 
