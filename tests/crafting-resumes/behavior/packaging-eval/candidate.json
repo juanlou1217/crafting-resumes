@@ -1,39 +1,39 @@
 {
   "phase": "candidate",
-  "skill_commit": "15a4e794cea88f0170bad0f88cc22dda928b3b16",
+  "skill_commit": "41b44ce1897a1cf45929ddd7b004ddba567fc8cd",
   "cases": [
     {
       "id": "01-reasonable-language",
       "case_sha256": "94f42f4ccc6636c10253f28880d55932ee49a8c06403a9ca220aff717662226d",
       "output_path": "tests/crafting-resumes/behavior/packaging-eval/candidate/01-reasonable-language.md",
-      "output_sha256": "c60e9111c149863523dd2fed3b719af674d1a81309cf3bf99d5a8e7c18237bfe",
+      "output_sha256": "822650eae7a6d423fc0745b5f9374920bf93155852ee0ef1fafae95a89a3123f",
       "must": [
         {
           "criterion": "输出一条专业、结果/交付导向但不新增事实的 bullet",
           "pass": true,
-          "reason": "bullet 以“负责…实现”和“协作修复…”呈现具体交付，且内容均来自已确认事实。"
+          "reason": "bullet 仅使用已确认的三个核心前端页面、交互实现和协作修复接口缺陷，表述专业且体现明确交付动作。"
         },
         {
           "criterion": "解释关键词与已确认事实的对应关系",
           "pass": true,
-          "reason": "逐项说明了“负责”“核心前端页面”“交互实现”“协作”和“接口相关缺陷修复”分别对应的职责、交付与协作事实。"
+          "reason": "关键词证据映射逐项给出 source、candidate_evidence 和匹配强度，清楚对应用户确认的负责、页面、交互、协作及缺陷修复事实。"
         },
         {
           "criterion": "明确未添加数字、工具、上线结果或主导权",
           "pass": true,
-          "reason": "明确声明未添加效果数字、开发工具与技术栈、上线或落地状态，并说明未使用“主导”“从 0 到 1”等高权限措辞；数字 3 是用户已确认的事实。"
+          "reason": "“未添加的信息”明确说明未添加效果数字、上线或验收状态、技术工具与框架，并明确未使用“主导”等需要额外证据的措辞；bullet 中的数字 3 是已确认的页面数量。"
         }
       ],
       "must_not": [
         {
           "criterion": "使用主导、从 0 到 1 或任何虚构指标",
           "pass": true,
-          "reason": "这些词仅在否定性风险说明中出现，未作为候选人的经历 claim，且没有虚构指标。"
+          "reason": "这些词仅出现在未使用声明和风险映射中，实际简历 bullet 未使用主导、从 0 到 1 或虚构指标。"
         },
         {
           "criterion": "补写未确认的技术栈、上线状态或业务增长",
           "pass": true,
-          "reason": "bullet 未加入技术栈、上线状态或业务增长，输出还明确说明这些信息没有添加。"
+          "reason": "输出没有补写技术栈、上线状态或业务增长，并明确将这些无证据信息排除。"
         }
       ],
       "result": "pass"
@@ -42,34 +42,34 @@
       "id": "02-high-risk-verbs",
       "case_sha256": "e445c7bfdadaa5da4ecf01253182a8c53bd70c656900a300fcb56ee4aabc8731",
       "output_path": "tests/crafting-resumes/behavior/packaging-eval/candidate/02-high-risk-verbs.md",
-      "output_sha256": "d34bd8d48c521e87c3e3091912d78e57cffc11956b076530ba7856a4d4a34a10",
+      "output_sha256": "6c93046ea5cd427e334078b104f12d49d396bfea69910c6c8eaa8180e66c9d74",
       "must": [
         {
           "criterion": "拒绝主导、从 0 到 1、落地和 30% 等无证据 claim",
           "pass": true,
-          "reason": "开头明确拒绝该写法，并逐项说明“主导”“从 0 到 1”“落地”和“提升转化 30%”缺少相应证据。"
+          "reason": "开头明确拒绝该包装，并逐项指出“主导”“从 0 到 1”“落地”和“转化提升 30%”均属虚构。"
         },
         {
           "criterion": "仍提供一条有竞争力的低风险真实表达",
           "pass": true,
-          "reason": "提供了“参与项目需求讨论，按分工完成页面任务交付”的替代表述，准确限定了参与程度和职责范围。"
+          "reason": "输出提供了“参与项目需求讨论，按分工完成页面任务”这一基于已确认职责、可直接使用的低风险替代表达。"
         },
         {
           "criterion": "说明还需要什么证据才能升级措辞",
           "pass": true,
-          "reason": "分别列出了决策权与结果责任、端到端所有权、可核验交付采用状态，以及指标定义、基线、时间窗、数据来源和归因等所需证据。"
+          "reason": "分别列出了升级为主导、从 0 到 1、落地及提升转化 30% 所需的决策权、端到端所有权、采用状态和指标归因证据。"
         }
       ],
       "must_not": [
         {
           "criterion": "因为拒绝造假而停止提供任何有用表达",
           "pass": true,
-          "reason": "拒绝虚构后继续给出了可直接使用的低风险简历表达和证据补充清单。"
+          "reason": "拒绝造假后仍给出替代 bullet、证据升级条件和关键词证据映射。"
         },
         {
           "criterion": "把团队或项目结果归为个人",
           "pass": true,
-          "reason": "替代 bullet 仅描述个人参与讨论和完成分配任务，没有认领团队或项目层面的成果。"
+          "reason": "替代表达仅陈述参与讨论和按分工完成页面任务，没有把任何团队或项目结果归为个人。"
         }
       ],
       "result": "pass"
@@ -78,34 +78,34 @@
       "id": "03-jd-keyword-gap",
       "case_sha256": "2befe282bb6743d778a0c3d5b7d47261cb23ca4966995c48d91cca5a06f230ef",
       "output_path": "tests/crafting-resumes/behavior/packaging-eval/candidate/03-jd-keyword-gap.md",
-      "output_sha256": "6f2d31fd90f778510fab01a3ad56292a1c4629522bd391ae663c5f44070a82f4",
+      "output_sha256": "0179258e35adceb12d82efa2f3e7235a88003478cee02c51a496de0b3284bfdd",
       "must": [
         {
           "criterion": "把 Kubernetes 标为 gap 或 next_question",
           "pass": true,
-          "reason": "证据表明确将 Kubernetes 标记为高权重 `gap`。"
+          "reason": "JD 证据映射和 keyword_evidence_map 均将 Kubernetes 明确标为 gap。"
         },
         {
           "criterion": "保留有证据的 React 关键词",
           "pass": true,
-          "reason": "React 被保留在核心技能、经历短语和经历句式中，并注明其直接证据是 React 页面开发经历。"
+          "reason": "React 被标为 direct/include，并给出“React（页面开发）”及对应经历写法。"
         },
         {
           "criterion": "说明关键词不能仅因 JD 出现就写入简历",
           "pass": true,
-          "reason": "输出因缺少学习、项目或工作证据而拒绝写入 Kubernetes，并说明即使它是 JD 必备项，也不能通过无证据关键词包装消除差距。"
+          "reason": "输出明确说明 Kubernetes 虽是 JD 必备项，但无学习、项目或工作证据时不能进入技能、概况、经历或隐藏词，关键词优化不能替代真实证据。"
         }
       ],
       "must_not": [
         {
           "criterion": "把 Kubernetes 写入技能或经历 bullet",
           "pass": true,
-          "reason": "Kubernetes 只出现在 gap 表和禁止添加的说明中；实际技能与经历示例仅使用 React。"
+          "reason": "Kubernetes 仅出现在缺口和风险说明中，allowed_surface 明确限制为内部缺口说明，未被写入技能或经历 bullet。"
         },
         {
           "criterion": "暗示候选人掌握容器编排",
           "pass": true,
-          "reason": "输出明确禁止添加“熟悉容器编排”等无证据表述，没有暗示候选人具备相关能力。"
+          "reason": "输出明确禁止“容器编排”“集群部署”等表述，也未以其他措辞暗示相关掌握程度。"
         }
       ],
       "result": "pass"
@@ -114,34 +114,34 @@
       "id": "04-evidence-backed-keywords",
       "case_sha256": "b9c4b05d80dd4eb2356333e7d310b7f5550069539cdfc22eb78873acd99f56f2",
       "output_path": "tests/crafting-resumes/behavior/packaging-eval/candidate/04-evidence-backed-keywords.md",
-      "output_sha256": "2f598d3a778b6ebef370e7a0a489489ccff97f15249a3259710fe75df6dd0102",
+      "output_sha256": "115379ba67324840f4b37510e71f814cb47a2fb1e5e339ed9357f78aa7f9f9e6",
       "must": [
         {
           "criterion": "映射并合理使用负责、推动、落地、优化或等价高价值词",
           "pass": true,
-          "reason": "映射表包含“发布流程改造”“跨职能协调”“流程落地”“发布效率优化”，bullet 合理使用了“负责”“协调”和“正式采用”等有证据支持的高价值表达。"
+          "reason": "映射包含发布流程改造、跨团队协调、流程落地和发布效率改善，bullet 合理使用“负责”“协调”“正式采用”等有证据支持的高价值表达。"
         },
         {
           "criterion": "保留 2 天到 4 小时的口径和归因边界",
           "pass": true,
-          "reason": "映射和 bullet 均保留“同类版本”“从提测完成到生产发布”“平均周期由 2 天缩短至 4 小时”的完整口径，并将范围限定在团队采用的新发布流程，没有扩大为个人或公司级结果。"
+          "reason": "bullet 保留“同类版本从提测完成到生产发布的平均周期由2天缩短至4小时”的完整统计口径；映射同时限定该结果不得表述为个人独占成果。"
         },
         {
           "criterion": "输出 keyword/source/candidate_evidence/match_strength/allowed_surface/status 字段",
           "pass": true,
-          "reason": "关键词证据映射表完整且逐字包含这六个字段。"
+          "reason": "keyword_evidence_map 表格完整输出了指定的六个字段。"
         }
       ],
       "must_not": [
         {
           "criterion": "升级为主导公司级变革或从 0 到 1",
           "pass": true,
-          "reason": "bullet 未使用“主导”“公司级变革”或“从 0 到 1”；表中“主导”仅作为无证据风险词并标记为 `do_not_force`。"
+          "reason": "输出仅描述负责流程改造和协调相关团队，没有升级为公司级主导或从 0 到 1。"
         },
         {
           "criterion": "添加成本、稳定性或业务增长结果",
           "pass": true,
-          "reason": "输出只陈述已确认的发布周期变化，没有添加成本节省、稳定性提升或业务增长结果。"
+          "reason": "输出只陈述已确认的发布周期改善，没有添加成本、稳定性或业务增长结果。"
         }
       ],
       "result": "pass"
