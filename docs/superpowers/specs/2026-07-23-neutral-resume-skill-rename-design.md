@@ -1,6 +1,6 @@
 # Neutral Resume Skill Rename and Packaging Design
 
-**Status:** Awaiting written-spec review  
+**Status:** Approved
 **Date:** 2026-07-23
 
 ## Context
@@ -126,9 +126,9 @@ The packaging behavior updates the main router plus the evidence, interview, JD 
 5. Fast-forward the validated branch to `main` and push it while the old repository URL still exists.
 6. Rename the GitHub repository to `crafting-resumes`, update the SSH remote, and verify visibility/default branch/CI.
 7. Remove the temporary worktree, rename the primary local checkout directory, and verify the new clone path and remote.
-8. Stage and validate `~/.codex/skills/crafting-resumes`; install atomically only if the target is absent.
-9. Run explicit and implicit fresh discovery against the new installed name.
-10. Remove the old installed directory only after the new installation passes and its source tree hash matches.
+8. Stage and validate `~/.codex/skills/crafting-resumes`; install atomically only if the target is absent, then pass explicit fresh discovery while the old Skill remains available for rollback.
+9. Move the old callable directory to a hash-addressed backup outside the active Skills directory, then pass implicit discovery with only the new name active; after both explicit and implicit discovery pass, atomically create a source-hash/commit-bound local receipt. Quarantine new and restore old on failure.
+10. After final local, source/install hash, Git, GitHub, and CI verification passes, atomically create a cleanup-authorization receipt; use it to make cleanup reentrant, delete the retained backup last, remove both receipts, and finish in terminal new-only state.
 
 GitHub's old repository URL may redirect, but no README, installation command, local remote, or active Skill alias will continue advertising the old name.
 
@@ -137,7 +137,8 @@ GitHub's old repository URL may redirect, but no README, installation command, l
 - Repository identity tests verify the neutral repository/Skill/display names and absence of the old callable name from active surfaces.
 - Package tests continue enforcing the 500-word router limit, exact frontmatter, routed references, provenance, licenses, and generated-artifact policy.
 - Packaging contract tests require allowed transformations, high-risk wording gates, keyword-evidence mapping, and anti-stuffing rules.
-- Focused fresh-agent cases cover an ordinary project, an overclaim request, a JD keyword gap, and a complete tailored delivery.
+- Focused fresh-agent cases cover an ordinary project, an overclaim request, a JD keyword gap, and an evidence-backed keyword map plus tailored bullet.
+- Focused verbatim outputs and per-criterion judge manifests persist case/output hashes and one frozen candidate commit; full behavior manifests also bind every raw output hash.
 - Full unit tests, all twelve frozen behavior cases and twenty-four manifests, deterministic tree hashing, source/install diff, explicit invocation, implicit discovery, and GitHub Actions must pass.
 
 ## Failure handling and rollback
