@@ -1707,7 +1707,26 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-Run it and record RED because the helper does not exist.
+Extend this starting contract with deterministic coverage for exact Darwin
+constants and the `ctypes` prototype, opened real parent directory FDs with
+relative basenames, source/parent/target filesystem identity, inode/device
+preservation, absolute paths, parent symlink rejection, stable CLI exit/error
+contracts, and both race boundaries. Patch the natural syscall seam in the
+imported module: create the target immediately before the real syscall to
+prove `RENAME_EXCL`, and swap the source immediately before the syscall seam
+to prove the final source identity recheck. Do not add a production test hook
+or claim that `RENAME_NOFOLLOW_ANY` rejects a final source symlink; it rejects
+symlinks encountered during pathname resolution. Every subprocess call must
+set a timeout.
+
+Run:
+
+```bash
+"$PYTHON" -B -m unittest discover \
+  -s tests/crafting-resumes -p 'test_exclusive_rename.py'
+```
+
+Record RED because the helper does not exist.
 
 - [ ] **Step 2: Implement the exclusive rename primitive**
 
@@ -1811,7 +1830,9 @@ if __name__ == "__main__":
   -s tests/crafting-resumes -p 'test_exclusive_rename.py'
 ```
 
-Expected on macOS: 4 tests pass. On CI platforms other than macOS, all four are explicitly skipped; the deployment machine must pass, not skip, before Task 7.
+Expected on macOS: 16 tests pass. On CI platforms other than macOS, the
+Darwin-specific tests are explicitly skipped; the deployment machine must
+pass, not skip, before Task 7.
 
 - [ ] **Step 4: Commit the migration helper**
 
@@ -2239,6 +2260,9 @@ MIGRATION_VENV="$CODEX_ROOT/.crafting-resumes-migration-venv"
 MIGRATION_PYTHON="$MIGRATION_VENV/bin/python"
 SYSTEM_PYTHON="$(command -v python3)"
 test -x "$SYSTEM_PYTHON"
+test -x "$MIGRATION_PYTHON"
+"$MIGRATION_PYTHON" -c 'import yaml, pypdf, reportlab'
+PYTHON="$MIGRATION_PYTHON"
 QUICK_VALIDATE="$CODEX_SKILLS_DIR/.system/skill-creator/scripts/quick_validate.py"
 HASH_TOOL="$NEW_REPO/tests/crafting-resumes/hash_skill_tree.py"
 EXCLUSIVE_RENAME="$NEW_REPO/scripts/exclusive_rename.py"
@@ -2260,7 +2284,6 @@ case "$origin_push_url" in
     ;;
 esac
 test "$(git -C "$NEW_REPO" remote get-url --push origin)" = "$NEW_REMOTE"
-test -x "$PYTHON"
 test "$(git -C "$NEW_REPO" branch --show-current)" = "main"
 test -z "$(git -C "$NEW_REPO" status --porcelain)"
 git -C "$NEW_REPO" verify-commit "$FEATURE_SHA"
