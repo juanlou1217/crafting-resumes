@@ -8,10 +8,14 @@
 
 1. `target_and_jd`：已确认求职目标；有 JD 时保留 JD 原文、权重和解析，无 JD 时明确 `N/A`。
 2. `evidence_ledger`：唯一事实台账及来源、状态、归因、保密和允许产物。
-3. `jd_mapping`：有 JD 和候选证据时输出 `covered`、`weak`、`gap`、`do_not_force`；缺任一输入时为 `N/A`。
-4. `keyword_evidence_map`：写作或关键词优化时按 `professional-packaging-and-keywords.md` 输出，固定字段为 `keyword/source/candidate_evidence/match_strength/allowed_surface/status`；任何关键词优化请求都不能省略，即使所有目标词均为 `gap/do_not_force/next_question`。仅 JD 解析且不涉及候选人关键词优化时可省略。
-5. `current_one_question`：只有关键缺口或资格门阻断下一步时才出现，并且整轮正好一个问题；事实完整且用户要求交付时省略。
-6. `risks_and_conflicts`：真实性、日期/数字/职责冲突、隐私、高权重 JD gap 与面试风险。
+3. `candidate_business_cases`：用户只掌握局部线索、难以还原公司为何投入时，给 2–4 条彼此可区分的完整候选业务逻辑，贯通触发、优先级、影响规模、价值机制、具体问题和验证信号；说明每条的线索依据与可证伪条件。它们不是用户 claim，不进入事实台账。
+4. `company_context_map`：公司/商业经历中，按 `experience-interview.md` 维护战略语境、需求触发、为什么现在优先、利益相关方与影响规模、价值获取机制、不做代价/机会成本及交付后业务证据；个人/课程/开源经历客观不适用时写 `N/A：原因`。
+5. `experience_map`：原始/薄弱经历、面试准备、STAR 或问题解决复盘任务中，按 `experience-interview.md` 维护四层地图与横跨四层的事实细节；简历写作不要求输出未使用的空字段。
+6. `jd_mapping`：有 JD 和候选证据时输出 `covered`、`weak`、`gap`、`do_not_force`；缺任一输入时为 `N/A`。
+7. `anchor_experience_map`：简历选材、排序或面试准备时，记录用户重视程度、岗位相关性、公司语境强度、四层问题解决深度、证据强度、追问价值、就绪状态和前置位置；用户指定的深度经历不得被静默忽略。
+8. `keyword_evidence_map`：写作或关键词优化时按 `professional-packaging-and-keywords.md` 输出，固定字段为 `keyword/source/candidate_evidence/match_strength/allowed_surface/status`；任何关键词优化请求都不能省略，即使所有目标词均为 `gap/do_not_force/next_question`。仅 JD 解析且不涉及候选人关键词优化时可省略。
+9. `current_one_question`：只有关键缺口或资格门阻断下一步时才出现，并且整轮正好一个问题；事实完整且用户要求交付时省略。
+10. `risks_and_conflicts`：真实性、日期/数字/职责冲突、隐私、高权重 JD gap 与面试风险。
 
 中间产物可以显示非 `confirmed` 项的状态与风险，但不能把它们写成候选人事实。
 
@@ -21,8 +25,9 @@
 
 - JD 定向中文简历；
 - ATS 单栏纯文本版；
+- 锚点经历选择、前置理由与重点面试准备顺序；
 - 修改说明；多 JD 时改为逐版本差异表并保留共同事实边界；
-- 面试追问图。
+- 公司经历的公司级业务案、四层经历地图与面试追问图。
 
 六维审查在用户要求审查、完整交付或当前任务需要诊断时输出；它可以审查 `draft_under_review`，但必须注明诊断对象和确认状态。Boss 直聘开场白、猎头介绍、申请邮件或求职信仅在用户明确请求且有足够 `confirmed` 证据时提供为草稿；不得默认凑齐或代用户发送。首次生成的文案只有在用户确认拟交付文字后才能标记 `final`，再进入正式招聘沟通或正式投递 PDF。用户明确授权把既有 Markdown 逐字原样导出、仅用于评价样式时，可按 `obsidian-pdf-delivery.md` 的版式预览例外执行，但必须标为 `layout_preview_unverified_content`。PDF 及视觉校验留给后续 PDF 适配器，本参考不构建、不承诺也不生成 PDF。
 
@@ -31,14 +36,18 @@
 只保留当前模式适用的栏目；字段未知时在台账/风险报告写 `N/A`，不在公开简历放占位符。
 
 1. **事实台账**：`## 事实台账`，表头固定为 `claim | source | status | time_window | personal_action | team_result | attribution | metric_definition | confidentiality | allowed_outputs | next_question`。
-2. **JD 分析与映射**：`## JD 分析` 先按 `jd-mapping.md` 的 11 个提取字段输出；随后 `## JD 证据映射`，表头固定为 `jd_original | requirement_type | weight | candidate_evidence | source | status | reason | resume_action`。
-3. **定向简历**：先写 `状态`，再按实际存在信息使用 `姓名/求职目标 → 个人概况（可选）→ 核心技能 → 工作/实习经历 → 项目经历 → 教育经历 → 证书奖项（可选）`；校招与社招可按 `resume-writing.md` 调序，不改变时间线。
-4. **ATS 纯文本**：`## ATS 纯文本版` 后只放单栏 `text` 代码块；使用与定向简历一致的标准栏目与逐字事实，不放表格、图标、页眉页脚或隐藏词。
-5. **修改说明 / packaging notes**：列出使用的高价值关键词、对应证据、未添加的信息、降级表达与 `gap/do_not_force`；不得把写作理由变成新的候选人事实。
-6. **版本差异**：表头固定为 `事实 claim | 版本 A：保留/顺序/措辞及原因 | 版本 B：保留/顺序/措辞及原因 | 不变的事实边界`；每增加一个版本就增加一列。
-7. **面试追问图**：使用 `review-rubrics.md` 固定的 `claim/source/ownership/method/tradeoff/metric/source-risk/status/action` 表，不替候选人编答案。
-8. **招聘沟通草稿**：仅按用户点名输出。Boss 开场白固定为 `身份与目标（1句）→ 最相关证据（1–2句）→ 针对岗位的沟通请求（1句）`；猎头摘要固定为 `目标与层级 | 最近相关经历 | 三条可核验证据 | 明确缺口/边界 | 求职约束`；申请邮件/求职信固定为 `主题 → 称呼 → 申请目的 → 2–3条证据与岗位关联 → 诚实缺口（如影响判断）→ 下一步请求 → 署名`。
-9. **风险/冲突报告**：`## 风险与冲突`，表头固定为 `type | affected_claim | source/status | impact | safe_action | blocking_scope`；资格门失败、待确认和不适用必须分开，不用总分掩盖。
+2. **候选业务逻辑（按需）**：`## 候选业务逻辑（待验证）`，表头固定为 `hypothesis | clue_basis | company_trigger | why_now_priority | stakeholder_reach | value_mechanism | concrete_problem_link | distinguishing_evidence`。输出 2–4 条因果链完整、彼此可区分的推测；未知环节明确写“待验证”，不得用抽象价值标签代替。整表是帮助用户识别真实上下文的模型脚手架，不是候选人事实，不得复制到简历或面试答案。
+3. **公司级业务案**：`## 公司级业务案`，表头固定为 `experience | field | content | source_or_hypothesis_rationale | status | gap_or_risk | next_question`。`field` 只使用 `strategic_context/demand_trigger/why_now_priority/stakeholder_reach/value_capture/counterfactual_opportunity_cost/post_delivery_business_evidence`。所有输入线索只能按其证据层级记录；`model_inference` 明确标作待验证价值路径。需要补证时，与四层地图合计最多一个 `next_question` 非空。
+4. **四层经历地图**：`## 四层经历地图`，表头固定为 `experience | layer | field | content | source_or_hypothesis_rationale | status | gap_or_risk | next_question`。只输出与当前经历和请求相关的字段；`model_inference` 必须明确标为待验证假设，不能混入候选人事实；需要补证时，与公司级业务案合计最多一个 `next_question` 非空。
+5. **JD 分析与映射**：`## JD 分析` 先按 `jd-mapping.md` 的 11 个提取字段输出；随后 `## JD 证据映射`，表头固定为 `jd_original | requirement_type | weight | candidate_evidence | source | status | reason | resume_action`。
+6. **锚点经历映射**：`## 锚点经历映射`，表头固定为 `experience | candidate_priority | target_relevance | company_context_strength | problem_solving_depth | evidence_strength | interview_yield | readiness | placement | reason`。涉及选材或排序时必须先于简历草稿输出或内部维护；一个版本最多三个正式锚点。`candidate_priority` 只能是用户明确给出的 `high/medium/low` 或 `unset`；`target_relevance` 使用 `direct/transferable/low/N/A`；`company_context_strength` 使用 `strong/partial/unknown/N/A`：`strong` 表示适用的关键公司事实已有证据且能连成触发→优先级→规模→价值机制→业务证据的相干链，`partial` 表示只有部分环节或连接，`unknown` 表示仍未知，`N/A` 表示客观不适用；`problem_solving_depth` 使用 `deep/partial/shallow` 并说明缺口；`readiness` 使用 `not_ready/frontload_ready/interview_anchor_ready`；`placement` 使用 `provisional_first/summary/first_bullet/selected_projects/supporting/omit`。机器字段名和枚举值保持上述英文原值，可在单元格理由或表外补中文解释，不用中文近义词替换。用户高优先级经历未前置时必须说明原因；`not_ready` 只能用 `provisional_first/supporting/omit`，且只能称锚点候选，不能当成最终前置锚点。公司语境未知时，可基于已确认的较弱交付 claim 达到 `frontload_ready`，但不得把它标成公司价值锚点；若公司解释对故事成立有实质影响，则不能达到 `interview_anchor_ready`。
+7. **定向简历**：先写 `状态`，再按实际存在信息使用 `姓名/求职目标 → 个人概况（可选）→ 核心技能 → 工作/实习经历 → 项目经历 → 教育经历 → 证书奖项（可选）`；校招与社招可按 `resume-writing.md` 调序，不改变时间线。前部和各经历首条按锚点映射排序。
+8. **ATS 纯文本**：`## ATS 纯文本版` 后只放单栏 `text` 代码块；使用与定向简历一致的标准栏目与逐字事实，不放表格、图标、页眉页脚或隐藏词；通过顺序而非视觉格式保持锚点优先。
+9. **修改说明 / packaging notes**：列出锚点选择及前置理由、使用的高价值关键词、对应证据、未添加的信息、降级表达与 `gap/do_not_force`；不得把写作理由变成新的候选人事实。
+10. **版本差异**：表头固定为 `事实 claim | 版本 A：保留/顺序/措辞及原因 | 版本 B：保留/顺序/措辞及原因 | 不变的事实边界`；每增加一个版本就增加一列。
+11. **面试追问图**：使用 `review-rubrics.md` 固定的 `claim/source/layer/probe_type/risk_question/evidence_status/risk/action` 长表，不替候选人编答案。所有锚点 claim 都必须进入；未确认答案明确保持待准备状态。STAR 只在适用的公司级业务案和四层地图达到 `interview_story_ready` 后作为可选摘要输出。
+12. **招聘沟通草稿**：仅按用户点名输出。Boss 开场白固定为 `身份与目标（1句）→ 最相关证据（1–2句）→ 针对岗位的沟通请求（1句）`；猎头摘要固定为 `目标与层级 | 最近相关经历 | 三条可核验证据 | 明确缺口/边界 | 求职约束`；申请邮件/求职信固定为 `主题 → 称呼 → 申请目的 → 2–3条证据与岗位关联 → 诚实缺口（如影响判断）→ 下一步请求 → 署名`。
+13. **风险/冲突报告**：`## 风险与冲突`，表头固定为 `type | affected_claim | source/status | impact | safe_action | blocking_scope`；资格门失败、待确认和不适用必须分开，不用总分掩盖。
 
 原生 PDF 以用户确认后的 Markdown 为唯一内容输入，不需要旧式结构化简历 JSON；Markdown 与 ATS 文本不依赖 PDF 环境。
 
@@ -47,9 +56,9 @@
 | 模式 | 当前必须/允许输出 | 必须阻断 |
 | --- | --- | --- |
 | 用户要求造假 | 拒绝、风险、仅基于现有 `confirmed` 的真实替代；可不提问，恢复流程时至多一个问题 | 评分、简历、ATS、沟通文案、面试图、报告、PDF |
-| 简历 + 单 JD | 事实台账、JD 映射、风险；门通过后按请求交付定向简历、ATS、修改说明、面试图与六维审查 | 非 `confirmed` claim、未解决冲突、未授权隐私 |
-| 简历 + 多 JD | 一份共同事实台账；每个 JD 独立映射、版本、差异和审查 | 万能混合版、跨版本改变事实或贡献强度 |
-| 仅简历/经历 | 事实台账、时间线/可信度检查、结构诊断；目标已知时可给无 JD 分的岗位方向草稿，未知时只问一个目标方向 | JD 分、覆盖率、匹配结论、冒充 JD 定向成稿 |
+| 简历 + 单 JD | 事实台账、JD 映射、锚点映射、风险；门通过后按请求交付定向简历、ATS、修改说明、面试图与六维审查 | 非 `confirmed` claim、未解决冲突、未授权隐私 |
+| 简历 + 多 JD | 一份共同事实台账；每个 JD 独立映射、锚点选择、版本、差异和审查 | 万能混合版、跨版本改变事实或贡献强度 |
+| 仅简历/经历 | 事实台账、时间线/可信度检查、结构诊断；目标已知时可给无 JD 分的岗位方向锚点映射与草稿，未知时只问一个目标方向 | JD 分、覆盖率、匹配结论、冒充 JD 定向成稿 |
 | 仅 JD | JD 原文拆解、权重、硬门和素材方向；必要时一个候选证据问题 | 候选人匹配分、能力判断、真实完整简历 |
 | 无现成简历 | 事实台账和逐轮单问题深访 | 假 bullet、占位成稿、无证据匹配结论 |
 | 信息严重不足 | 简短阻断、已知/未知风险和正好一个最高信息增益问题 | 看似完整的候选人产物与匹配结论 |
@@ -73,10 +82,11 @@
 
 普通 `weak`、`gap` 或未提供职责强度不阻断，也不触发追问。简短事实必须沿用用户原词，不能主动换成贡献梯级或解释动作：“做过需求访谈”仍写“做过”，不能写“参与/负责”；“做过 SQL 看板”不能解释成“使用 SQL 制作/搭建看板”。立即按 `方向 A 证据映射 → 方向 A 版本 → 方向 A weak/gap → 方向 B 证据映射 → 方向 B 版本 → 方向 B weak/gap → 版本差异表` 交付；每个方向的证据映射独立列出事实、相关性、弱点或缺口及不强行补写项，共用一份事实台账。
 
-只有提供完整 JD 时，才按 `JD A mapping → JD A 版本 → JD A 审查 → JD B mapping → JD B 版本 → JD B 审查 → 版本差异表` 组织。每版明确：
+只有提供完整 JD 时，才按 `JD A mapping → JD A 锚点映射 → JD A 版本 → JD A 审查 → JD B mapping → JD B 锚点映射 → JD B 版本 → JD B 审查 → 版本差异表` 组织。每版明确：
 
 - 使用了共同台账中的哪些 claim 及来源；
 - 为什么前置、降级或省略某项；
+- 哪些经历是该 JD 的锚点及其面试准备状态；
 - 哪些要求为 `weak` 或 `gap`；
 - 哪些 JD 词因无证据被列为 `do_not_force`。
 
@@ -90,13 +100,17 @@
 - 必要但不阻断事实表达的字段只在修改说明中标记待补；
 - 不得由实习动作补正式岗位名，不得由页面开发补接口联调等事实。
 
-JD 词必须绑定证据；无证据的要求标 `gap` 或 `do_not_force`。团队规模与个人贡献保持分离。六维审查每维都包含 `status`、`score` 或 `N/A`、`evidence`、`deductions`、`actions`；未提供 ATS 视觉材料时视觉子项为 `N/A`。为每条强 claim 输出 ownership、method、tradeoff、metric、source 风险问题图。
+JD 词必须绑定证据；无证据的要求标 `gap` 或 `do_not_force`。团队规模、客户/用户影响规模与个人贡献保持分离。先选择一至三个锚点并说明前置理由，再让简历顺序、加粗重点和面试准备顺序保持一致。六维审查每维都包含 `status`、`score` 或 `N/A`、`evidence`、`deductions`、`actions`；未提供 ATS 视觉材料时视觉子项为 `N/A`。公司经历的面试准备先按公司级业务案检查立项触发、为什么优先、影响规模、价值机制和交付后业务证据，再按四层地图检查问题、判断、策略演化、结果归因、复盘与事实细节，并为每条锚点或强 claim 输出适用的长表风险边。
 
 ## 最终交付检查
 
 - 输出与模式矩阵一致，没有空壳或未请求的可选文案。
 - 定向版、ATS 版、修改说明和面试图共用同一事实底稿。
+- 用户认为有深度的经历已进入锚点映射；公司经历的 `company_context_strength` 已诚实评估；简历前部、加粗和面试准备顺序与最终锚点一致。
+- 前置锚点至少为 `frontload_ready`；未达到 `interview_anchor_ready` 的准备风险已明确，不能伪装成已准备完成。
+- 面向读者的成型 Markdown 已按 `emphasis-and-highlighting.md` 选择性加粗高价值事实；ATS 纯文本和内部工作产物不强行添加格式。
 - 最终公共材料没有占位符、待确认成句、私密信息或本地路径。
 - 多 JD 版本各自清晰，差异有来源，不混词。
+- 多 JD 版本分别选择锚点；锚点差异只来自用户优先级、JD 相关度与证据深度，不改变事实。
 - 评分仅为诊断，N/A 未计为 0，也未暗示录用概率。
 - 首次生成稿标为 `draft_under_review`；只有用户确认拟交付文字后才标为 `final`。

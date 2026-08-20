@@ -24,7 +24,10 @@ class NeutralIdentityTests(unittest.TestCase):
         )
         self.assertEqual(frontmatter["name"], "crafting-resumes")
         self.assertIn("# Crafting Resumes", skill)
-        self.assertEqual(agent["interface"]["display_name"], "求职简历教练")
+        self.assertEqual(
+            agent["interface"]["display_name"],
+            "经历挖掘与简历教练",
+        )
         self.assertIn("$crafting-resumes", agent["interface"]["default_prompt"])
 
     def test_active_public_surfaces_do_not_advertise_old_name(self) -> None:

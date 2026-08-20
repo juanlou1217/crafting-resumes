@@ -1,41 +1,42 @@
 ---
 name: crafting-resumes
-description: Use when a user needs a job-search resume, JD analysis, experience mining, resume tailoring, ATS review, recruiter outreach, resume-evidence interview preparation, or an ATS-friendly resume PDF, including Chinese-mainland recruiting contexts.
+description: Use when a user needs to mine code, tasks, or deliverables into a company-level business case and complete problem-solving experience; create or tailor a job-search resume; analyze a JD; review ATS content; prepare recruiter outreach or evidence-backed interviews; or deliver an ATS-friendly resume PDF, including Chinese-mainland recruiting contexts.
 ---
 
 # Crafting Resumes
 
-## Core rule
+## Core
 
-Only `confirmed` facts may enter a deliverable resume. Never invent numbers, upgrade contribution, claim team outcomes as personal outcomes, or expose private material. If facts conflict, stop the affected output and ask one resolving question.
+Only `confirmed` facts may enter candidate-facing deliverables. Never invent numbers, upgrade contribution, attribute team outcomes to one person, or expose private material. Resolve conflicts before using affected claims. Omit unsafe claims and keep warnings outside resume copy.
 
-## Start here
+For company work, analyze an organizational resource-allocation choice rather than an isolated task. Reason outside-in: company trigger → why-now priority → affected population and scale → value mechanism → blocking problem → judgment and intervention → layered evidence. When context is thin, infer 2–4 complete, clue-grounded, falsifiable candidate business cases. Present them as hypotheses, explain how to distinguish them, and let the user reject, combine, or confirm them before updating the evidence ledger. Keep context, capability, adoption, business value, and personal contribution as separate evidence layers. Personal, course, and open-source work uses its real decision context.
 
-Read `references/modes-and-state-machine.md` to route the available inputs. Read `references/evidence-and-truthfulness.md` before interpreting or rewriting any candidate claim.
+After confirming the company case, mine the four-layer problem-solving chain: problem, judgment, action/adjustment, and result/attribution/reflection. Personal scope matters for wording and attribution, not as the narrative spine. Let the user nominate thoughtful experiences; maintain the anchor map and frontload only one to three truthful, role-relevant, interview-defensible anchors. Deprioritize routine task logs.
 
-Read `references/professional-packaging-and-keywords.md` before any resume drafting, keyword optimization, or JD-language translation. It defines the required evidence gates and strong, truthful fallback wording; every keyword-optimization response must include its complete six-field map, including gap-only results.
+## Workflow
 
-Read `references/experience-interview.md` whenever an experience is raw, thin, ordinary, incomplete, or otherwise lacks enough confirmed evidence for a deliverable claim; follow its one-question turn contract before drafting.
+Read `references/modes-and-state-machine.md` to route inputs and `references/evidence-and-truthfulness.md` before interpreting claims.
 
-Do not scan a workspace, home directory, knowledge base, or repository unless the user explicitly authorizes exact paths. Treat model inference as non-deliverable.
+For raw experience, STAR, interview preparation, or incomplete evidence, read `references/experience-interview.md`. Infer candidate business cases first, confirm the company-context map, then build the four-layer map before summarizing. Follow its one-question turn contract.
 
-## Progressive references
+Before drafting or translating JD language, read `references/professional-packaging-and-keywords.md`; before polished Markdown, read `references/emphasis-and-highlighting.md`; before choosing deliverables, read `references/output-contracts.md`.
 
-Load only references that match the current phase:
+Load only phase-relevant references:
 
-- Read `references/china-recruiting-context.md` for mainland recruiting stages, ATS → HR scan → business interview → recruiting communication, or diagnostic interpretation.
-- Read `references/role-playbooks-tech-and-data.md` for software, frontend, backend, testing, data, or AI roles.
-- Read `references/role-playbooks-product-and-delivery.md` for product, project, implementation, or delivery roles.
-- Read `references/role-playbooks-operations-and-commercial.md` for operations, content, growth, sales, BD, or marketing roles.
-- Read `references/role-playbooks-campus-and-transition.md` for campus hiring, internships, experienced hiring, or career transitions; combine it with the target-role reference when relevant.
-- Read `references/jd-mapping.md` whenever a JD is present, especially for multiple JDs or evidence gaps.
-- Read `references/resume-writing.md` before drafting a resume or ATS plain-text version.
-- Read `references/review-rubrics.md` for content review, six-dimensional diagnostics, or interview-risk questions.
-- Read `references/output-contracts.md` before selecting intermediate or final deliverables for any input mode.
-- Read `references/obsidian-pdf-delivery.md` only after the delivery gate passes and the user requests a PDF; it is the required route for native Obsidian export and verified publication. Its explicit verbatim-layout-preview gate is the only exception to final-delivery fact confirmation.
+- `references/china-recruiting-context.md` for mainland recruiting stages.
+- `references/role-playbooks-tech-and-data.md` for technical and data roles.
+- `references/role-playbooks-product-and-delivery.md` for product and delivery roles.
+- `references/role-playbooks-operations-and-commercial.md` for operations and commercial roles.
+- `references/role-playbooks-campus-and-transition.md` for hiring stage or career transition.
+- `references/jd-mapping.md` when a JD is present.
+- `references/resume-writing.md` before resume or ATS drafting.
+- `references/review-rubrics.md` for diagnostics and interview-risk questions.
+- `references/obsidian-pdf-delivery.md` only after confirmation gates pass and PDF delivery is requested.
 
-Role references provide question directions, never candidate facts. They cannot override truth gates or the one-question contract. Ask exactly one highest-information-gain question only when missing evidence, conflict, or privacy uncertainty blocks the requested next stage. Ordinary `weak` or `gap` evidence neither triggers a question nor blocks an honest output.
+Role references guide questions; they never prove candidate facts. Every keyword optimization must retain the complete six-field evidence map, including gaps.
 
-## Delivery gate
+## Boundaries and delivery
 
-Do not call a draft final, score unavailable evidence, or build a final-delivery PDF until the candidate confirms both the factual snapshot and the proposed delivery wording. A user-authorized byte-for-byte layout preview may contain unverified source wording only when it is not edited and is labeled `layout_preview_unverified_content`, never final or ready to submit. A private review draft may use only confirmed, minimally disclosed facts within its stated privacy scope. Truthfulness and privacy are qualification gates; writing quality cannot offset a failure.
+Do not scan any workspace, home directory, knowledge base, or repository without exact-path authorization. Model inference is non-deliverable. Ask exactly one highest-information-gain question only when a material gap, conflict, or privacy issue blocks the next stage; ordinary `weak` or `gap` evidence does not.
+
+Do not call a draft final, score unavailable evidence, or build a final PDF until the candidate confirms the factual snapshot and proposed wording. A byte-for-byte layout preview may use unverified wording only under the explicit exception in the PDF reference and must remain labeled `layout_preview_unverified_content`.

@@ -1,4 +1,4 @@
 interface:
-  display_name: "求职简历教练"
-  short_description: "经历深挖、真实简历定制、专业包装、关键词优化、审查与PDF交付"
-  default_prompt: "Use $crafting-resumes to build a truthful, professionally packaged job-search resume from verified experience."
+  display_name: "经历挖掘与简历教练"
+  short_description: "从用户线索推演公司级业务逻辑，挖掘深度经历与真实简历"
+  default_prompt: "Use $crafting-resumes to infer several complete company-level business-case hypotheses from my clues, verify the real chain, and turn it into a truthful resume anchor and interview story."

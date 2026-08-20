@@ -2,16 +2,17 @@
 
 ## Objective
 
-Crafting Resumes（`crafting-resumes`）将求职简历制作拆为路由、证据、专业包装、岗位语境、写作审查和交付职责。主入口只负责资格门与渐进路由；较重的规则和岗位知识按当前阶段加载。中国大陆等地区招聘经验是可选语境，不进入品牌名称，也不构成候选人事实。
+Crafting Resumes（`crafting-resumes`）将求职简历制作拆为路由、公司级业务逻辑推演、证据、专业包装、岗位语境、写作审查和交付职责。主入口只负责核心思考顺序、资格门与渐进路由；较重的规则和岗位知识按当前阶段加载。中国大陆等地区招聘经验是可选语境，不进入品牌名称，也不构成候选人事实。
 
 ## Layers
 
 1. **Router** — `SKILL.md` 定义触发范围、真实性与隐私门禁、引用顺序和最终交付门禁。
-2. **Evidence core** — 状态机、证据台账、冲突处理、隐私边界和逐问访谈共同决定哪些 claim 可以进入候选表达。
-3. **Packaging reference** — `references/professional-packaging-and-keywords.md` 位于证据层和写作层之间，把已确认 claim 转换为证据允许的最高强度表达；它定义六类合理转换、高风险措辞证据门、强而真实的降级和完整关键词证据映射。
-4. **Recruiting and JD context** — 地区招聘流程、JD 映射以及技术、产品、运营、商业、校招和转型岗位打法提供选材、提问和排序方向，不提供候选人事实，也不能越过 packaging 证据门。
-5. **Writing, review, and output contracts** — 写作规则、审查量表与输出合同共同约束定向简历、ATS 文本、招聘沟通、面试证据图、版本差异和风险报告；只有当前输入适用的产物才会出现。
-6. **PDF delivery** — 两个确定性 Python 工具只负责准备隔离 Obsidian Vault 和验证导出的 PDF；Obsidian 桌面端是唯一渲染器，自动检查后仍须逐页视觉验收。
+2. **Business-case inference** — `references/experience-interview.md` 把代码、反馈、事故、指标、协作和交付物组织为 2–4 条完整候选业务逻辑：组织触发 → 优先级 → 影响规模 → 价值机制 → 具体问题 → 验证证据。候选逻辑必须可证伪，用户确认前不是 candidate claim。
+3. **Evidence core** — 公司级业务案、四层经历地图、状态机、证据台账、冲突处理、隐私边界和逐问访谈共同决定哪些 claim 可以进入候选表达。
+4. **Packaging reference** — `references/professional-packaging-and-keywords.md` 位于证据层和写作层之间，把已确认 claim 转换为证据允许的最高强度表达；它定义事实层级、六类合理转换、高风险措辞证据门、强而真实的降级和完整关键词证据映射。
+5. **Recruiting and JD context** — 地区招聘流程、JD 映射以及技术、产品、运营、商业、校招和转型岗位打法提供选材、提问和排序方向，不提供候选人事实，也不能越过 packaging 证据门。
+6. **Writing, emphasis, review, and output contracts** — 写作、重点强调、审查量表与输出合同共同约束锚点经历、定向简历、ATS 文本、招聘沟通、面试证据图、版本差异和风险报告；只有当前输入适用的产物才会出现。
+7. **PDF delivery** — 两个确定性 Python 工具只负责准备隔离 Obsidian Vault 和验证导出的 PDF；Obsidian 桌面端是唯一渲染器，自动检查后仍须逐页视觉验收。
 
 ## Shared keyword interface
 
@@ -33,6 +34,9 @@ JD 映射负责给出关键词来源、权重和候选证据关系；packaging r
 ```text
 用户材料或 JD
   → 输入模式识别
+  → 完整候选业务逻辑推演（模型假设）
+  → 用户识别并确认公司级业务案
+  → 四层经历地图
   → 证据台账、冲突与隐私范围
   → 单问题经历访谈（仅在关键信息阻塞时）
   → packaging reference（六类转换与高风险措辞证据门）
@@ -48,7 +52,7 @@ JD 映射负责给出关键词来源、权重和候选证据关系；packaging r
 
 ## Progressive loading
 
-经历深挖通常只需要状态机、证据和访谈引用；专业包装在任何写作、关键词优化或 JD 语言翻译之前加载；地区与岗位语境、JD、写作、审查及 PDF 模块只在对应阶段加载。这使入口保持简短，也避免无关参考覆盖当前证据边界。
+经历深挖通常只需要状态机、证据和访谈引用；访谈引用承载完整候选业务逻辑、公司级业务案和四层地图。专业包装在任何写作、关键词优化或 JD 语言翻译之前加载；强调规则只在面向读者的 Markdown 成稿阶段加载；地区与岗位语境、JD、写作、审查及 PDF 模块只在对应阶段加载。这使入口保持简短，也避免无关参考覆盖当前证据边界。
 
 ## Repository boundary
 

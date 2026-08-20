@@ -16,6 +16,7 @@ NOTICE_FILE = SKILL_ROOT / "THIRD_PARTY_NOTICES.md"
 
 EXPECTED_REFERENCES = {
     "references/china-recruiting-context.md",
+    "references/emphasis-and-highlighting.md",
     "references/evidence-and-truthfulness.md",
     "references/experience-interview.md",
     "references/jd-mapping.md",

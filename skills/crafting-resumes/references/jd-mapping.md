@@ -45,7 +45,7 @@ JD 词只能用于检索和组织已有事实，不能创造候选人事实。�
 | `source` | 每个候选证据的精确来源；只有技能清单时须明确写“技能清单，非项目/经历证据” |
 | `status` | 只能是 `covered`、`weak`、`gap`、`do_not_force` |
 | `reason` | 状态判断、个人/团队边界和仍缺的证据 |
-| `resume_action` | `include`、`deprioritize`、`omit`；不得要求补写不存在的事实 |
+| `resume_action` | `frontload`、`include`、`deprioritize`、`omit`；`frontload` 还须通过 `resume-writing.md` 的锚点选择，不得只因 JD 出现或用户偏爱就前置，也不得要求补写不存在的事实 |
 
 映射表之外另列无法评分的原因、高权重风险和当前唯一问题；不得把 `N/A` 写入映射行的 `status` 字段或当成 0 分。
 
@@ -76,8 +76,26 @@ JD requirement 映射完成后、进入写作前，按 `professional-packaging-a
 2. 标权重与依据；高权重硬门无证据时单列风险，不用其他分数抵消。
 3. 从唯一事实台账检索直接证据，再检索可迁移或学习/个人项目证据；三者不得互换。
 4. 逐项选择四种状态，记录来源和边界；再生成 `keyword_evidence_map`。关键词只有绑定证据时才能进入简历。
-5. 只把 `confirmed` 且满足当前产物披露范围的内容交给写作：`private_review_draft` 可使用用户本轮已确认、最小泛化并标记 `needs_redaction` 的事实；公开版本必须另有公开许可或确认脱敏。普通 `gap` 或 `weak` 不阻断诚实版本。
-6. 用户补证或推翻事实时，先更新唯一台账，再使所有受影响映射、关键词映射、版本、差异和审查失效并重算。
+5. 结合用户的 `candidate_priority`、高权重 JD 证据、适用的公司语境强度、四层问题解决深度和面试可解释性生成 `anchor_experience_map`；一个 JD 最多选择三段锚点，不把普通 `covered` 或任何单层规模/语境事实自动当作锚点价值。
+6. 只把 `confirmed` 且满足当前产物披露范围的内容交给写作：`private_review_draft` 可使用用户本轮已确认、最小泛化并标记 `needs_redaction` 的事实；公开版本必须另有公开许可或确认脱敏。普通 `gap` 或 `weak` 不阻断诚实版本。
+7. 用户补证或推翻事实时，先更新唯一台账，再使所有受影响映射、锚点选择、关键词映射、版本、差异和审查失效并重算。
+
+## 锚点经历映射
+
+有候选人证据且任务涉及简历选材、排序或面试准备时，使用同一事实台账输出：
+
+| experience | candidate_priority | target_relevance | company_context_strength | problem_solving_depth | evidence_strength | interview_yield | readiness | placement | reason |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+- `candidate_priority`：只记录用户明确表达的 `high/medium/low/unset`；未排序的经历必须是 `unset`，不得根据 Skill 的质量判断替用户填写偏好。
+- `target_relevance`：`direct/transferable/low/N/A：缺少目标或 JD`，给出 JD 或目标方向依据。
+- `company_context_strength`：使用 `strong/partial/unknown/N/A`。`strong` 要求适用的公司事实不只存在，还能连成“立项触发 → 为什么现在优先 → 影响对象与规模 → 价值机制 → 交付后业务证据”的相干链；只有部分环节或连接时为 `partial`，仍未知为 `unknown`，课程、个人、开源等客观无公司语境时才用 `N/A`。任一单层事实都不能单独支撑 `strong`。
+- `problem_solving_depth`：按问题、判断/取舍、策略演化、结果/复盘记录 `deep/partial/shallow` 及缺口，不以任务数量判断。
+- `evidence_strength`：说明来源、状态、归因与公开边界；有冲突或非 `confirmed` 关键 claim 时不得 `frontload`。
+- `interview_yield`：记录最自然且最有区分度的追问方向，不把危险的无证据强 claim 当“有追问价值”。
+- `readiness`：只能是 `not_ready`、`frontload_ready`、`interview_anchor_ready`。
+- `placement`：`provisional_first/summary/first_bullet/selected_projects/supporting/omit`；只有 `not_ready` 可用 `provisional_first`，只有至少 `frontload_ready` 可用 `summary/first_bullet/selected_projects`。工作时间线不得因 placement 改写。
+- `reason`：说明为何前置、保留、降级或省略，尤其解释用户高优先级经历与 JD 相关度冲突。
 
 ## 多 JD 合同
 

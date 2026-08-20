@@ -297,6 +297,10 @@ class CommitEquivalenceTests(unittest.TestCase):
             checkout_steps[0].get("with", {}).get("fetch-depth"),
             0,
         )
+        self.assertEqual(
+            checkout_steps[0].get("with", {}).get("ref"),
+            "${{ github.event.pull_request.head.sha || github.sha }}",
+        )
         metadata_steps = [
             step
             for step in workflow["jobs"]["test"]["steps"]
