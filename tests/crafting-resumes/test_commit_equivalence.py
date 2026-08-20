@@ -290,7 +290,7 @@ class CommitEquivalenceTests(unittest.TestCase):
         checkout_steps = [
             step
             for step in workflow["jobs"]["test"]["steps"]
-            if step.get("uses") == "actions/checkout@v4"
+            if step.get("uses") == "actions/checkout@v7"
         ]
         self.assertEqual(len(checkout_steps), 1)
         self.assertEqual(
